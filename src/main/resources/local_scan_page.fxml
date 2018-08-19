@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.software.gui.controllers.LocalScanController">
+    <JFXListView fx:id="scan_listview" cache="true" cacheHint="SCALE" layoutX="14.0" layoutY="4.0" prefHeight="359.0" prefWidth="231.0" style="-fx-background-color: null;" styleClass="mylistview" stylesheets="@css/listview_cell.css" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="3.0" />
+   <JFXButton fx:id="scan_btn" buttonType="RAISED" layoutX="181.0" layoutY="373.0" mnemonicParsing="false" ripplerFill="WHITE" style="-fx-background-color: #454545;" text="扫描" textAlignment="CENTER" textFill="#f2f2f2" wrapText="true" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="14.0" />
+   <JFXProgressBar fx:id="scan_progress_bar" layoutX="19.0" layoutY="380.0" prefHeight="4.0" prefWidth="153.0" progress="0.0" stylesheets="@css/progress_bar.css" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="19.0" AnchorPane.rightAnchor="63.0" />
+   <Text fx:id="scan_tip_text" fill="#323131" layoutX="18.0" layoutY="392.7265625" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" AnchorPane.bottomAnchor="13.23828125" AnchorPane.leftAnchor="18.0">
+      <font>
+         <Font size="8.0" />
+      </font>
+   </Text>
+
+</AnchorPane>

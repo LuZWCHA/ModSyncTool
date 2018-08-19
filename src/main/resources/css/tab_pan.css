@@ -1,0 +1,29 @@
+.jfx-tab-pane .headers-region {
+    -fx-background-color: #505050;
+}
+
+.jfx-tab-pane .tab-header-background {
+    -fx-background-color: #505050;
+}
+
+.jfx-tab-pane .tab-selected-line {
+    -fx-background-color: #ffffff;
+}
+
+.jfx-tab-pane .tab .tab-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #fcfcfc;
+    -fx-font-size: 14;
+    -fx-font-family: "Microsoft YaHei UI";
+    -fx-label-padding: 8,16,8,16;
+}
+
+.jfx-tab-pane .tab-header-area .jfx-rippler
+{
+    -jfx-rippler-fill: #ffffff;
+}
+
+.jfx-tab-pane .tab:selected .tab-label {
+    -fx-text-fill: #ffffff;
+    -fx-background-color: rgb(91, 91, 91);
+}

@@ -1,0 +1,24 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="filescan_main">
+    <output-path>$PROJECT_DIR$/out/artifacts/filescan_main</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="ScanMain" />
+        <option name="convertCss2Bin" value="true" />
+        <option name="description" value="" />
+        <option name="enabledSigning" value="true" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="nativeBundle" value="all" />
+        <option name="title" value="ModSyncTool" />
+        <option name="vendor" value="" />
+        <option name="version" value="1.0a" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="filescan_main.jar">
+        <element id="module-output" name="filescan_main" />
+      </element>
+      <element id="artifact" artifact-name="filescan_main:jar" />
+    </root>
+  </artifact>
+</component>
