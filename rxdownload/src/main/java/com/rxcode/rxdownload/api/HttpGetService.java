@@ -1,7 +1,6 @@
 package com.rxcode.rxdownload.api;
 
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.http.*;
@@ -16,7 +15,8 @@ public interface HttpGetService {
     Flowable<Response<ResponseBody>> getFile(@Url String url);
 
     @HEAD
-    Observable<Response>checkHeader(@Url String url);
+    @Headers({"Connection:close","Range:bytes=0-"})
+    Flowable<Response<Void>> checkHeader(@Url String url);
 
 
 }

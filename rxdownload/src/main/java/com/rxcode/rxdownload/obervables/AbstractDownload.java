@@ -4,22 +4,18 @@ import com.rxcode.rxdownload.api.ANY;
 import com.rxcode.rxdownload.api.HttpGetService;
 import com.rxcode.rxdownload.api.RxCarrier;
 import com.rxcode.rxdownload.DownloadConfig;
-import io.reactivex.Emitter;
 import io.reactivex.Flowable;
-import io.reactivex.Single;
-import io.reactivex.SingleSource;
 import io.reactivex.functions.Function;
 import okhttp3.ResponseBody;
 import org.reactivestreams.Publisher;
 import retrofit2.Response;
 
 import java.io.File;
-import java.util.concurrent.Callable;
 
 public abstract class AbstractDownload {
     protected DownloadInfo downloadInfo;
     private long sampleInterval;
-    private HttpGetService service;
+    protected HttpGetService service;
 
     protected AbstractDownload(){
         sampleInterval = DownloadConfig.getSampleInterval();
@@ -32,7 +28,7 @@ public abstract class AbstractDownload {
     }
 
     public Flowable<RxCarrier> download(File file, Response<ResponseBody> response){
-        return Flowable.fromPublisher(tryToReNameFile(file, response))
+        return Flowable.fromPublisher(checkFileAndResponse(file, response))
                 .flatMap(new Function<ANY, Publisher<RxCarrier>>() {
                     @Override
                     public Publisher<RxCarrier> apply(ANY any) throws Exception {
@@ -55,7 +51,9 @@ public abstract class AbstractDownload {
                 });
     }
 
-    public abstract Flowable<ANY> tryToReNameFile(File file, Response<ResponseBody> response);
+    public abstract Flowable<Response<ResponseBody>> start(DownloadInfo downloadInfo);
+
+    public abstract Flowable<ANY> checkFileAndResponse(File file, Response<ResponseBody> response);
 
     public abstract Flowable<RxCarrier> checkCompleted(File file, Response<ResponseBody> response);
 

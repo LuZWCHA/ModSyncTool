@@ -2,10 +2,9 @@ package com.rxcode.rxdownload.api;
 
 import com.rxcode.rxdownload.DownloadConfig;
 import com.rxcode.rxdownload.RxDownload;
-import com.rxcode.rxdownload.obervables.AbstractDownload;
-import com.rxcode.rxdownload.obervables.DownloadInfo;
-import com.rxcode.rxdownload.obervables.NormalDownload;
-import com.rxcode.rxdownload.obervables.RetrofitClient;
+import com.rxcode.rxdownload.obervables.*;
+import com.rxcode.rxdownload.util.DTaskUtil;
+import com.rxcode.rxdownload.util.HttpHelper;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableTransformer;
 import io.reactivex.Single;
@@ -23,6 +22,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -30,28 +30,53 @@ public class DownloadFun implements FlowableTransformer<RxCarrier, RxCarrier> {
 
     @Override
     public Publisher<RxCarrier> apply(Flowable<RxCarrier> upstream) {
+        HttpGetService service = RetrofitClient.INSTANCE.create(HttpGetService.class);
+
         return upstream
+                .observeOn(Schedulers.io())
+                .flatMap(new Function<RxCarrier, Publisher<RxCarrier>>() {
+                    @Override
+                    public Publisher<RxCarrier> apply(RxCarrier rxCarrier) throws Exception {
+
+                        DownloadInfo downloadInfo = (DownloadInfo) rxCarrier;
+                        return service.checkHeader(downloadInfo.getUrl())
+                                .flatMap((Function<Response<Void>, Publisher<RxCarrier>>) voidResponse -> {
+                                    //reset file name
+                                    if(DownloadConfig.isUseDefaultNameFirst()) {
+                                        String rfileName = HttpHelper.getFileName(voidResponse);
+                                        if (!rfileName.isEmpty()) {
+                                            downloadInfo.setRealFileName(rfileName);
+                                            downloadInfo.setTempFileName(rfileName + DownloadConfig.getTempSuffix());
+                                        }
+                                    }
+                                    if(!Objects.isNull(voidResponse.headers().get("Accept-Ranges"))){
+                                        downloadInfo.setDownloadType(1);
+                                    }
+
+                                    return Flowable.just(downloadInfo);
+                                });
+                    }
+                })
                 .flatMap(new Function<RxCarrier,Flowable<RxCarrier>>() {
-                    HttpGetService service = RetrofitClient.INSTANCE.create(HttpGetService.class);
                     @Override
                     public Flowable<RxCarrier> apply(RxCarrier o) throws Exception {
-                        DownloadInfo downloadInfo = (DownloadInfo) o;
-                        AbstractDownload download = new NormalDownload(downloadInfo,service);
-                        File file = new File(DownloadConfig.getDownloadPath() + downloadInfo.getTempFileName());
 
-                        return service.getFile(downloadInfo.getUrl())
+                        DownloadInfo downloadInfo = (DownloadInfo) o;
+                        AbstractDownload download = new RangeDownload(downloadInfo,service);
+                        File file = new File(DownloadConfig.getAbsolutePath(downloadInfo.getTempFileName()));
+
+                        return download.start(downloadInfo)
                                 .retry(throwable -> {
                                     downloadInfo.setDownloadStatus(DownloadInfo.DownloadStatus.DOWNLOAD_FAILED);
                                     downloadInfo.setThrowable(throwable);
                                     return false;
-                                })
-                                .observeOn(Schedulers.io())
+                                }).observeOn(Schedulers.io())
                                 .flatMap((Function<Response<ResponseBody>, Flowable<RxCarrier>>) responseBodyResponse -> {
 
                                     Flowable<RxCarrier> downloadEmitter = download.download(file, responseBodyResponse);
 
                                     return downloadEmitter
-                                            .buffer(download.getSampleInterval() * 2,TimeUnit.MILLISECONDS,1)
+                                            .buffer(download.getSampleInterval() * 3,TimeUnit.MILLISECONDS,1)
                                             .flatMap(new Function<List<RxCarrier>, Publisher<RxCarrier>>() {
                                                 private DownloadInfo temp = null;
                                                 @Override

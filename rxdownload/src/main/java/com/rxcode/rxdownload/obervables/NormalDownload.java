@@ -29,6 +29,11 @@ public class NormalDownload extends AbstractDownload {
         super(downloadInfo,service);
     }
 
+    @Override
+    public Flowable<Response<ResponseBody>> start(DownloadInfo downloadInfo) {
+        return service.getFile(downloadInfo.getUrl());
+    }
+
 //    @Override
 //    public void check(File file, Response<ResponseBody> response, Emitter<RxCarrier> emitter) {
 //
@@ -62,18 +67,9 @@ public class NormalDownload extends AbstractDownload {
 //    }
 
     @Override
-    public Flowable<ANY> tryToReNameFile(File file, Response<ResponseBody> response) {
+    public Flowable<ANY> checkFileAndResponse(File file, Response<ResponseBody> response) {
         if(response.code() != 200 && response.code() != 206) {
             return Flowable.error(new Throwable("failed response."));
-        }
-        if(DownloadConfig.isUseDefaultNameFirst()) {
-            String rfileName = HttpHelper.getFileName(response);
-            if (!rfileName.isEmpty()) {
-                downloadInfo.setRealFileName(rfileName);
-                downloadInfo.setTempFileName(rfileName + DownloadConfig.getTempSuffix());
-
-                file = new File(DownloadConfig.getAbsolutePath(downloadInfo.getTempFileName()));
-            }
         }
         return Flowable.just(ANY.product());
     }
@@ -170,5 +166,6 @@ public class NormalDownload extends AbstractDownload {
         },BackpressureStrategy.LATEST);
 
     }
+
 
 }

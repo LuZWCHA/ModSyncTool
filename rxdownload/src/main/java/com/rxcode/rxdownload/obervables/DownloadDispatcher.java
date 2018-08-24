@@ -1,5 +1,5 @@
 package com.rxcode.rxdownload.obervables;
 
-public class DownloadDispense {
+public class DownloadDispatcher {
 
 }
