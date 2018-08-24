@@ -63,7 +63,6 @@ public class SettingDialogController implements Initializable {
     private static String IP_REX = "((?:(?:25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))\\.){3}(?:25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d))))";
     private static String  DOMAIN_NAME_REX = "^(?=^.{3,255}$)(http(s)?://)?(www\\.)?[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+(:\\d+)*(/\\w+\\.\\w+)*$";
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -108,7 +107,7 @@ public class SettingDialogController implements Initializable {
             if (address_tv.validate() && path_tv.validate())
                 Single.just(ANY.product())
                         .map(s -> {
-                            if (!Config.getFormatURL().equals(path_tv.getText()) && !Config.SERVER_ADDRESS.equals(path_tv.getText())) {
+                            if (!Config.getFormatURL().equals(path_tv.getText()) && !Config.PATH.equals(path_tv.getText())) {
                                 Config.PATH = path_tv.getText();
 
                                 MainController2.stopServer();

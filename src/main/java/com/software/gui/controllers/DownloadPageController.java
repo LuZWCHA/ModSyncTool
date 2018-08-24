@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.logging.Logger;
 
 public class DownloadPageController implements Initializable {
@@ -105,12 +106,10 @@ public class DownloadPageController implements Initializable {
                             @Override
                             public void getTask(List<DTask> tasks) {
                                 Platform.runLater(() -> {
-                                    ObservableList<DTask> list = FXCollections.observableArrayList();
-                                    list.addAll(tasks);
-                                    if (list.isEmpty())
-                                        snackBarShow(UIString.download_snack_bar_no_item_update);
+                                    download_listview.getItems().clear();
+                                    snackBarShow(UIString.download_snack_bar_no_item_update);
 
-                                    download_listview.setItems(list);
+                                    download_listview.getItems().addAll(tasks);
                                 });
                             }
                         })
@@ -211,6 +210,12 @@ public class DownloadPageController implements Initializable {
                                 task.getDownloadInfo().setDownloadStatus(DownloadInfo.DownloadStatus.DOWNLOAD_FORCE_STOP);
                                 task.getDownloadInfo().setDownloadSpeed(0);
                             }
+                        }
+                    });
+                    download_listview.getItems().removeIf(new Predicate<DTask>() {
+                        @Override
+                        public boolean test(DTask task) {
+                            return task.getDownloadInfo().getDownloadStatus() != DownloadInfo.DownloadStatus.DOWNLOADING;
                         }
                     });
                     download_listview.refresh();
