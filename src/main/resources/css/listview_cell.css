@@ -1,0 +1,57 @@
+.jfx-list-cell {
+    -fx-background-insets: 0.0;
+    -fx-text-fill: BLACK;
+}
+
+.jfx-list-cell:odd, .jfx-list-cell:even {
+    -fx-background-color: WHITE;
+}
+
+.jfx-list-cell:filled:hover {
+    -fx-text-fill: transparent;
+}
+
+.jfx-list-cell:selected{
+    -fx-background-color: rgba(191, 191, 191, 0.78);
+    -fx-text-fill: white;
+}
+
+.jfx-list-cell .jfx-rippler {
+    -jfx-rippler-fill: #afa8aa;
+}
+
+/* The main scrollbar CSS class of ListView */
+.mylistview .scroll-bar:horizontal ,
+.mylistview .scroll-bar:vertical{
+    -fx-border-insets: 0;
+    -fx-border-width: 0;
+    -fx-pref-width: 0.8em;
+    -fx-background-color: transparent;
+}
+
+/* The increment and decrement button CSS class of scrollbar */
+.mylistview .increment-button ,
+.mylistview .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+    -fx-border-width: 0;
+    -fx-border-insets: 2,1,2,1;
+    /*-fx-border-color:derive(#a4a4a4,60%);*/
+}
+
+ /*The main scrollbar **track** CSS class*/
+.mylistview .scroll-bar:horizontal .track ,
+.mylistview .scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color:transparent;
+    -fx-background-radius: 1em;
+}
+
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+.mylistview .scroll-bar:horizontal .thumb,
+.mylistview .scroll-bar:vertical .thumb {
+    -fx-background-color:derive(#212121,90%);
+    -fx-background-insets: 0, 0, 0;
+    -fx-background-radius: 1em;
+}

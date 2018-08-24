@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.software.gui.controllers.DownloadPageController">
+    <JFXListView fx:id="download_listview" cache="true" cacheHint="SCALE" layoutX="14.0" layoutY="4.0" minWidth="0.0" style="-fx-background-color: null;" styleClass="mylistview" stylesheets="@css/listview_cell.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="4.0" />
+   <JFXButton fx:id="sync_btn" buttonType="RAISED" layoutX="32.0" layoutY="357.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="80.0" ripplerFill="#dadada" style="-fx-background-color: #4a4a4a; -fx-border-radius: 20; -fx-background-radius: 20;" text="同 步" textAlignment="CENTER" textFill="#eeeeee" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0">
+      <padding>
+         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+      </padding>
+      <font>
+         <Font name="Microsoft YaHei Bold" size="12.0" />
+      </font></JFXButton>
+
+
+</AnchorPane>

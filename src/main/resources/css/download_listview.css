@@ -1,0 +1,8 @@
+.jfx-list-cell:selected{
+    -fx-background-color: rgb(238, 238, 238);
+    -fx-text-fill: white;
+}
+
+.jfx-list-cell .jfx-rippler {
+    -jfx-rippler-fill: rgba(226, 226, 226, 0.83);
+}
