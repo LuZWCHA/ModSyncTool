@@ -107,9 +107,11 @@ public class DownloadPageController implements Initializable {
                             public void getTask(List<DTask> tasks) {
                                 Platform.runLater(() -> {
                                     download_listview.getItems().clear();
-                                    snackBarShow(UIString.download_snack_bar_no_item_update);
-
-                                    download_listview.getItems().addAll(tasks);
+                                    if(tasks.isEmpty())
+                                        snackBarShow(UIString.download_snack_bar_no_item_update);
+                                    else {
+                                        download_listview.getItems().addAll(tasks);
+                                    }
                                 });
                             }
                         })
@@ -168,6 +170,7 @@ public class DownloadPageController implements Initializable {
 
                                 } else if (downloadInfo.getDownloadStatus() == DownloadInfo.DownloadStatus.DOWNLOAD_FAILED) {
                                     snackBarShow(downloadInfo.getRealFileName() + "下载失败:"+downloadInfo.getThrowable().toString());
+                                    downloadInfo.getThrowable().printStackTrace();
                                     logger.throwing(getClass().getCanonicalName(), "OnNext", downloadInfo.getThrowable());
                                 }
                             }
