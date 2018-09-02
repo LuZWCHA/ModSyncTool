@@ -34,41 +34,9 @@ public class NormalDownload extends AbstractDownload {
         return service.getFile(downloadInfo.getUrl());
     }
 
-//    @Override
-//    public void check(File file, Response<ResponseBody> response, Emitter<RxCarrier> emitter) {
-//
-//        if(DownloadConfig.isUseDefaultNameFirst()) {
-//            String rfileName = HttpHelper.getFileName(response);
-//            if (!rfileName.isEmpty()) {
-//                downloadInfo.setRealFileName(rfileName);
-//                downloadInfo.setTempFileName(rfileName + DownloadConfig.getTempSuffix());
-//
-//                file = new File(DownloadConfig.getAbsolutePath(downloadInfo.getTempFileName()));
-//            }
-//        }
-//
-//        //check completed file
-//        if(DTaskUtil.checkFileExits(DownloadConfig.getAbsolutePath(downloadInfo.getRealFileName()))) {
-//            if(DownloadConfig.isSkipCompletedFile()) {
-//                downloadInfo.setDownloadStatus(DownloadInfo.DownloadStatus.DOWNLOAD_FINISHED);
-//                downloadInfo.setProgress(10000);
-//                emitter.onNext(downloadInfo);
-//                emitter.onComplete();
-//                return;
-//            }
-//            //delete and re-download
-//            new File(DownloadConfig.getAbsolutePath(downloadInfo.getRealFileName())).deleteOnExit();
-//        }
-//
-//        //check temp file
-//        if(file.exists()){
-//            file.delete();
-//        }
-//    }
-
     @Override
     public Flowable<ANY> checkFileAndResponse(File file, Response<ResponseBody> response) {
-        if(response.code() != 200 && response.code() != 206) {
+        if(!response.isSuccessful()) {
             return Flowable.error(new Throwable("failed response."));
         }
         return Flowable.just(ANY.product());

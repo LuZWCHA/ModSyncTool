@@ -15,7 +15,8 @@ public enum RetrofitClient {
     private Retrofit retrofit;
     RetrofitClient(){
         List<Protocol> protocols = new ArrayList<>();
-        protocols.add(Protocol.HTTP_1_1);//(Protocol.HTTP_2);
+        protocols.add(Protocol.HTTP_2);//(Protocol.HTTP_2);
+        protocols.add(Protocol.HTTP_1_1);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .protocols(protocols)
                 .retryOnConnectionFailure(true)
