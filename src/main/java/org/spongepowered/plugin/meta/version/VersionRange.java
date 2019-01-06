@@ -548,7 +548,7 @@ public class VersionRange
 
     public ArtifactVersion matchVersion( List<ArtifactVersion> versions )
     {
-        // TODO: could be more efficient by sorting the list and then moving along the restrictions in order?
+        // TODO: could be more efficient by sorting the SERVER_INF_LIST and then moving along the restrictions in order?
 
         ArtifactVersion matched = null;
         for ( ArtifactVersion version : versions )

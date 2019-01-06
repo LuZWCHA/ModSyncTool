@@ -185,10 +185,10 @@ public final class PluginMetadata implements Consumer<PluginMetadata> {
     /**
      * Returns a mutable {@link List} of authors for this plugin.
      *
-     * <p>The returned list can be used to remove an author from the
+     * <p>The returned SERVER_INF_LIST can be used to remove an author from the
      * metadata.</p>
      *
-     * @return The list of authors, can be empty
+     * @return The SERVER_INF_LIST of authors, can be empty
      */
     public List<String> getAuthors() {
         return this.authors;

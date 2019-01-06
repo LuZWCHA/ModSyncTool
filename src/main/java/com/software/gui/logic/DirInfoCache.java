@@ -33,15 +33,15 @@ import java.util.logging.Logger;
 //Note: some methods are thread-safe while others not;
 //all method based on java.util.set and javafx.collections.xxx
 @SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
-public final class DirInfoCache {
+public final class DirInfoCache implements MyCache {
     private Logger logger = Logger.getLogger(getClass().getSimpleName());
 
     private static String infoFileName = "mod_scan.info";
     private static String ignoreFileName = "scan.ignore";
 
     private Set<String> ignoreFiles;
-    //present mods had been scanned,Note:this list may have same mod,it's just a map from disk to memory
-    //care for the add,remove,clear... method should should invoke in special thread,for example in javafx-thread
+    //present mods had been scanned,Note:this SERVER_INF_LIST may have same mod,it's just a map from disk to memory
+    //care for the add,remove,save... method should should invoke in special thread,for example in javafx-thread
     private ObservableList<TransMod> transMods;
 
     //file-to-mod's map,speed up search by filePath
@@ -58,6 +58,30 @@ public final class DirInfoCache {
     private SetChangeListener<File> innerListener;
 
     private final Lock syncLock = new ReentrantLock();
+
+    @Override
+    public void preInit() {
+        syncFromDisk();
+    }
+
+    @Override
+    public void save() {
+        try {
+            sync2Disk(FILE.BOTH);
+        } catch (IOException e) {
+            logger.info(e.getMessage());
+        }
+    }
+
+    @Override
+    public boolean doInit() {
+        return false;
+    }
+
+    @Override
+    public boolean doSave() {
+        return false;
+    }
 
     public enum FILE{
         IGNORE,

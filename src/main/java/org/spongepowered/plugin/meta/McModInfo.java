@@ -81,7 +81,7 @@ public final class McModInfo {
      * {@link PluginMetadata}.
      *
      * @param json The JSON string
-     * @return The deserialized metadata list
+     * @return The deserialized metadata SERVER_INF_LIST
      */
     public List<PluginMetadata> fromJson(String json) {
         try {
@@ -96,7 +96,7 @@ public final class McModInfo {
      * by the specified {@link Path}.
      *
      * @param path The path to the file
-     * @return The deserialized metadata list
+     * @return The deserialized metadata SERVER_INF_LIST
      * @throws IOException If an error occurs while reading
      */
     public List<PluginMetadata> read(Path path) throws IOException {
@@ -110,7 +110,7 @@ public final class McModInfo {
      * {@link InputStream}.
      *
      * @param in The input stream
-     * @return The deserialized metadata list
+     * @return The deserialized metadata SERVER_INF_LIST
      * @throws IOException If an error occurs while reading
      */
     public List<PluginMetadata> read(InputStream in) throws IOException {
@@ -122,7 +122,7 @@ public final class McModInfo {
      * {@link Reader}.
      *
      * @param reader The reader
-     * @return The deserialized metadata list
+     * @return The deserialized metadata SERVER_INF_LIST
      * @throws IOException If an error occurs while reading
      */
     public List<PluginMetadata> read(Reader reader) throws IOException {
@@ -134,7 +134,7 @@ public final class McModInfo {
      * {@link JsonReader}.
      *
      * @param reader The JSON reader
-     * @return The deserialized metadata list
+     * @return The deserialized metadata SERVER_INF_LIST
      * @throws IOException If an error occurs while reading
      */
     public List<PluginMetadata> read(JsonReader reader) throws IOException {

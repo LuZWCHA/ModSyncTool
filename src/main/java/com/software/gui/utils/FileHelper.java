@@ -1,5 +1,6 @@
 package com.software.gui.utils;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.graph.Traverser;
 import com.sun.deploy.trace.FileTraceListener;
@@ -13,6 +14,32 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class FileHelper {
+
+    public static <T> void write(List<T> objects, Path file) {
+        try {
+            // write object to file
+            OutputStream fos = Files.newOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(new ArrayList<>(objects));
+            oos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static <T> ArrayList<T> read2ArrayList(Path file) {
+        try {
+            InputStream in = Files.newInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(in);
+            List<T> list = (List<T>) ois.readObject();
+            return list == null ? Lists.newArrayList() : Lists.newArrayList(list);
+        }catch (NoSuchFileException e) {
+            System.out.println("not create "+file.getFileName()+",skip.");
+        }catch (IOException|ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        return Lists.newArrayList();
+    }
 
     public static <T> void write(ObservableList<T> mods, Path file) {
         try {

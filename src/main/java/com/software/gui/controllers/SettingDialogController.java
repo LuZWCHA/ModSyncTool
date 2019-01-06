@@ -6,6 +6,8 @@ import com.jfoenix.validation.RequiredFieldValidator;
 import com.jfoenix.validation.base.ValidatorBase;
 import com.rxcode.rxdownload.api.ANY;
 import com.software.gui.Config;
+import com.software.gui.logic.CacheManager;
+import com.software.gui.logic.DirInfoCache;
 import com.software.gui.scheduler.JavaFxScheduler;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -42,9 +44,9 @@ public class SettingDialogController implements Initializable {
     @FXML
     private JFXToggleButton relative_path_togbtn;
     @FXML
-    private JFXTextField path_tv;
+    private JFXTextField path_tv;//
     @FXML
-    private JFXTextField address_tv;
+    private JFXTextField address_tv;//
     @FXML
     private JFXButton save_btn;
     @FXML
@@ -110,10 +112,11 @@ public class SettingDialogController implements Initializable {
                             if (!Config.getFormatURL().equals(path_tv.getText()) && !Config.PATH.equals(path_tv.getText())) {
                                 Config.PATH = path_tv.getText();
 
+                                DirInfoCache cache = CacheManager.INSTANCE.getCache(0);
                                 MainController2.stopServer();
-                                MainController2.getCache().resetPath(Config.PATH);
-                                MainController2.getCache().syncFromDisk();
-                                MainController2.startServer();
+                                cache.resetPath(Config.PATH);
+                                cache.syncFromDisk();
+                                MainController2.startServer(cache);
                             }
 
                             if (!Config.SERVER_ADDRESS.equals(address)) {

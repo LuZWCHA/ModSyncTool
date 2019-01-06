@@ -4,16 +4,14 @@ import com.google.common.collect.Lists;
 import com.jfoenix.controls.*;
 import com.jfoenix.utils.JFXNodeUtils;
 import com.software.beans.AbstractMod;
-import com.software.beans.Mod;
 import com.software.beans.TransMod;
 import com.software.beans.WrapperMod;
+import com.software.gui.controllers.cells.ListViewCellController;
+import com.software.gui.logic.CacheManager;
 import com.software.gui.logic.DirInfoCache;
 import com.software.gui.scheduler.JavaFxScheduler;
 import com.software.gui.utils.UIString;
 import com.software.scan.JarsView;
-import javafx.beans.binding.Bindings;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,13 +32,10 @@ import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
 import java.io.IOException;
-import java.net.SocketException;
 import java.net.URL;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 import java.util.logging.Logger;
 
 public class LocalScanController implements Initializable {
@@ -75,6 +70,7 @@ public class LocalScanController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        DirInfoCache cache = CacheManager.INSTANCE.getCache(0);
         snackbar = new JFXSnackbar(root);
         DropShadow shadow = new DropShadow();
         shadow.setColor(Color.LIGHTGREY);
@@ -86,7 +82,7 @@ public class LocalScanController implements Initializable {
         scan_progress_bar.setVisible(false);
         scan_tip_text.setText(UIString.scan_tip_text_ready);
         scan_progress_bar.visibleProperty().bind(scan_btn.disabledProperty().not());
-        MainController2.getCache().addAddedFilesListener((observable, oldValue, newValue) -> scan_btn.setDisable(newValue));
+        cache.addAddedFilesListener((observable, oldValue, newValue) -> scan_btn.setDisable(newValue));
 
         scan_listview.setCellFactory(param -> {
             TransModCell cell = new TransModCell();
@@ -118,7 +114,7 @@ public class LocalScanController implements Initializable {
                             @Override
                             public void accept(TransMod mod) {
                                 try {
-                                    MainController2.getCache().removeMod((AbstractMod) mod,true);
+                                    cache.removeMod((AbstractMod) mod,true);
                                 }catch (Exception e){
                                     logger.warning("delete failed:" + e.getMessage());
                                 }
@@ -144,7 +140,7 @@ public class LocalScanController implements Initializable {
             return cell;
         });
         scan_listview.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        scan_listview.setItems(MainController2.getCache().getTransMods());
+        scan_listview.setItems(cache.getTransMods());
 
         scan_btn.setOnMouseClicked(event -> {
             if(jarsView.isScanning()) {
@@ -154,7 +150,7 @@ public class LocalScanController implements Initializable {
             }
             else {
                 scan_btn.setText(UIString.scanbtn_pause);
-                jarsView.setFiles(new HashSet<>(MainController2.getCache().getAddedFiles()))
+                jarsView.setFiles(new HashSet<>(cache.getAddedFiles()))
                         .observeOn(JavaFxScheduler.platform())
                         .view(subscriber);
 
@@ -167,7 +163,7 @@ public class LocalScanController implements Initializable {
             private int fileTotalNum = 0;
             @Override
             public void onSubscribe(Subscription s) {
-                fileTotalNum = MainController2.getCache().getAddedFiles().size();
+                fileTotalNum = cache.getAddedFiles().size();
                 scanNum = 0;
                 scan_progress_bar.setProgress(-1d);
                 scan_tip_text.setText(UIString.scan_tip_text_scan_start);
@@ -179,9 +175,9 @@ public class LocalScanController implements Initializable {
             @Override
             public void onNext(WrapperMod mod) {
                 if(!mod.isEmpty()) {
-                    MainController2.getCache().addNewModAndCheck(mod);
+                    cache.addNewModAndCheck(mod);
                 }else {
-                    MainController2.getCache().addToIgnoreAndCheck(mod.getFilePath());
+                    cache.addToIgnoreAndCheck(mod.getFilePath());
                 }
                 scanNum++;
                 scan_progress_bar.setProgress(scanNum/(double)fileTotalNum);
@@ -204,7 +200,7 @@ public class LocalScanController implements Initializable {
             public void onComplete() {
                 logger.info("scan finished");
                 try {
-                    MainController2.getCache().sync2Disk(DirInfoCache.FILE.BOTH);
+                    cache.sync2Disk(DirInfoCache.FILE.BOTH);
                     lastScanResult = ScanCache.COMPLETE;
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -224,7 +220,7 @@ public class LocalScanController implements Initializable {
 
     private class TransModCell extends JFXListCell<TransMod> {
 
-        private  ListViewCellController listViewCellController;
+        private ListViewCellController listViewCellController;
         private FXMLLoader loader = new FXMLLoader();
         private void initListViewCell(){
 

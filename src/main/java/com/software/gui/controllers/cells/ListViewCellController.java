@@ -1,4 +1,4 @@
-package com.software.gui.controllers;
+package com.software.gui.controllers.cells;
 
 import com.jfoenix.controls.JFXRippler;
 import javafx.fxml.FXML;

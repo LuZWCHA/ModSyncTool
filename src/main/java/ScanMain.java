@@ -10,11 +10,15 @@ import com.software.beans.AbstractMod;
 import com.software.beans.WrapperMod;
 import com.software.gui.Config;
 import com.software.gui.controllers.MainController2;
+import com.software.gui.controllers.MyDecorator;
+import com.software.gui.controllers.SettingDialogController;
+import com.software.gui.logic.CacheManager;
 import com.software.gui.logic.DirInfoCache;
 import com.software.gui.utils.DrawUtil;
 import com.software.gui.utils.UIString;
 import com.software.gui.utils.VersionCompareHelper;
 import com.software.scan.JarsView;
+import com.sun.jmx.snmp.tasks.Task;
 import io.reactivex.exceptions.UndeliverableException;
 import io.reactivex.plugins.RxJavaPlugins;
 import javafx.application.Application;
@@ -22,11 +26,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DialogEvent;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -43,6 +49,7 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.net.URL;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -177,16 +184,22 @@ public class ScanMain extends Application {
             logger.info("config read failed,skip");
         }
 
+        DirInfoCache cache = new DirInfoCache(Config.PATH);
+        CacheManager.INSTANCE.registerCache(CacheManager.Key.createKey(0,DirInfoCache.class),cache);
+
         URL url = getClass().getResource("main.fxml");
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(url);
         Pane root = loader.load();
 
-        JFXDecorator decorator = new JFXDecorator(primaryStage,root,false,false,true);
+        JFXDecorator decorator = new MyDecorator(primaryStage,root,false,false,true);
+
         DrawUtil.setJFXDecorator(decorator,Color.valueOf("#F4371E"),Color.WHITE,UIString.main_full_screen,
                 UIString.min_screen,UIString.max_screen,UIString.close_main);
         primaryStage.setTitle(UIString.main_title);
+
+
 
         Scene scene = new Scene(decorator,330,560);
         scene.getStylesheets().add(getClass().getResource("css/global.css").toExternalForm());
@@ -195,10 +208,31 @@ public class ScanMain extends Application {
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
+                CacheManager.INSTANCE.saveAll();
+            }
+        });
+
+        ((MyDecorator) decorator).setSettingBtnListener(new EventHandler<MouseEvent>() {
+            Node content;
+            SettingDialogController controller;
+            JFXAlert dialog;
+            @Override
+            public void handle(MouseEvent event) {
                 try {
-                    MainController2.getCache().sync2Disk(DirInfoCache.FILE.BOTH);
+                    if(content == null) {
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(Objects.requireNonNull(getClass().getClassLoader().getResource("setting_dialog.fxml")));
+                        content = loader.load();
+                        controller = loader.getController();
+                        dialog = new JFXAlert(primaryStage);
+                        dialog.setContent(content);
+                        dialog.initModality(Modality.APPLICATION_MODAL);
+                        dialog.setOverlayClose(true);
+                        controller.setDialog(dialog);
+                    }
+                    dialog.show();
                 } catch (IOException e) {
-                    logger.throwing(getClass().getSimpleName(),"OnClose:Saving data",e);
+                    logger.throwing(getClass().getSimpleName(),"onClick",e);
                 }
             }
         });

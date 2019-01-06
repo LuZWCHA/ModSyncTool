@@ -31,6 +31,7 @@ public class NLCompareRecorder {
 
     private Logger logger = Logger.getLogger(getClass().getSimpleName());
     public interface DownloadTaskCallBack{
+        //trigger when obtain the mod SERVER_INF_LIST
         void getList();
         void getTask(List<DTask> tasks);
     }
@@ -53,6 +54,8 @@ public class NLCompareRecorder {
     }
 
     public void bindCache(@NonNull DirInfoCache cache){
+        if(cache.equals(this.cache))
+            return;
         this.cache = cache;
         rxDownload.setDownloadPath(cache.getDiskRealPath());
         rxDownload.setMaxTaskNum(Config.DOWNLOAD_THREAD_NUM);
@@ -84,13 +87,13 @@ public class NLCompareRecorder {
         conflictMods.clear();
         redundantMods.clear();
 
-        //same id but different version
+        //same id but different versions
         Map<String,List<TransMod>> idTemp = Maps.newLinkedHashMap();
 
         lostMods = Sets.difference(serverMods,localMods);
 
         if(lostMods.isEmpty())
-            logger.info("lost mods's list is empty");
+            logger.info("lost mods's SERVER_INF_LIST is empty");
         lostMods.forEach(new Consumer<TransMod>() {
             @Override
             public void accept(TransMod mod) {
@@ -160,7 +163,7 @@ public class NLCompareRecorder {
                         //to download lost mods
                         return Flowable.just(transModSet)
                                 .observeOn(Schedulers.computation())
-                                //get conflict mods,lost mods and emmmmmm
+                                //get conflict mods,lost mods and so on
                                 .map(transMods -> {
                                     compareWithLocalMods(transModSet);
                                     return conflictMods;
@@ -184,7 +187,7 @@ public class NLCompareRecorder {
                                 });
                     }
                 }).flatMap((Function<Set<TransMod>, Publisher<TransMod>>) Flowable::fromIterable)
-                //warp as a task list
+                //warp as a task SERVER_INF_LIST
                 .collectInto(Lists.newArrayList(), (BiConsumer<List<DTask>, TransMod>) (list, mod) -> {
                     logger.info(Config.getFormatURL() + "/mod/" + mod.getId());
                     DTask dTask =

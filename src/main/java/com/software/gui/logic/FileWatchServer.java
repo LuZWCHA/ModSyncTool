@@ -17,7 +17,7 @@ public class FileWatchServer extends Thread {
     private DirInfoCache cache;
     private String path;
 
-    public FileWatchServer(DirInfoCache cache){
+    public FileWatchServer(final DirInfoCache cache){
         this.cache = cache;
         this.path = cache.getDiskRealPath();
     }

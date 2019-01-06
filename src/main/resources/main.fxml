@@ -10,13 +10,14 @@
    <fx:define>
        <fx:include fx:id="download_content" source="download_page.fxml" />
        <fx:include fx:id="local_scan_content" source="local_scan_page.fxml" />
+       <fx:include fx:id="server_setting_content" source="server_list_page.fxml" />
    </fx:define>
 
     <children>
       <JFXTabPane fx:id="tab_pane" layoutX="14.0" prefHeight="544.0" prefWidth="316.0" stylesheets="@css/tab_pan.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
           <Tab fx:id="local_scan_tab" content="$local_scan_content" closable="false" text="本地文件扫描" />
           <Tab fx:id="download_tab" content="$download_content" closable="false" text="服务器模组同步" />
+          <Tab fx:id="server_setting_tab" content="$server_setting_content" closable="false" text="服务器设置"/>
       </JFXTabPane>
-      <JFXButton fx:id="setting_btn" layoutX="268.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" ripplerFill="#ffffff32" style="-fx-background-radius: 25; -fx-border-radius: 25;" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
 </AnchorPane>

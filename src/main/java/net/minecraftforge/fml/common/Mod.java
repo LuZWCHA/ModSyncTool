@@ -239,9 +239,9 @@ public @interface Mod
     String updateJSON() default "";
 
     /**
-     * A list of custom properties for this mod. Completely up to the mod author if/when they
+     * A SERVER_INF_LIST of custom properties for this mod. Completely up to the mod author if/when they
      * want to put anything in here.
-     * @return an optional list of custom properties
+     * @return an optional SERVER_INF_LIST of custom properties
      */
     CustomProperty[] customProperties() default {};
 

@@ -109,7 +109,7 @@ public class ComparableVersion
     }
 
     /**
-     * Represents a numeric item in the version item list.
+     * Represents a numeric item in the version item SERVER_INF_LIST.
      */
     private static class IntegerItem
         implements Item
@@ -170,7 +170,7 @@ public class ComparableVersion
     }
 
     /**
-     * Represents a string in the version item list, usually a qualifier.
+     * Represents a string in the version item SERVER_INF_LIST, usually a qualifier.
      */
     private static class StringItem
         implements Item
@@ -276,7 +276,7 @@ public class ComparableVersion
     }
 
     /**
-     * Represents a version list item. This class is used both for the global item list and for sub-lists (which start
+     * Represents a version SERVER_INF_LIST item. This class is used both for the global item SERVER_INF_LIST and for sub-lists (which start
      * with '-(number)' in the version specification).
      */
     private static class ListItem
@@ -301,7 +301,7 @@ public class ComparableVersion
 
                 if ( lastItem.isNull() )
                 {
-                    // remove null trailing items: 0, "", empty list
+                    // remove null trailing items: 0, "", empty SERVER_INF_LIST
                     remove( i );
                 }
                 else if ( !( lastItem instanceof ListItem ) )
