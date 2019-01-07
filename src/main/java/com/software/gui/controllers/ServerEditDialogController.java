@@ -1,6 +1,5 @@
 package com.software.gui.controllers;
 
-import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.jfoenix.controls.JFXAlert;
 import com.jfoenix.controls.JFXButton;
@@ -12,19 +11,19 @@ import com.software.gui.controllers.beans.ServerInf;
 import com.software.gui.logic.CacheManager;
 import com.software.gui.logic.ServersCache;
 import javafx.concurrent.Task;
-import javafx.event.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.File;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
@@ -56,6 +55,8 @@ public class ServerEditDialogController implements Initializable {
     private int port;
     private static String IP_REX = "((?:(?:25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))\\.){3}(?:25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d))))";
     private static String  DOMAIN_NAME_REX = "^(?=^.{3,255}$)(http(s)?://)?(www\\.)?[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+(:\\d+)*(/\\w+\\.\\w+)*$";
+    private ServerInf serverInf;
+    private int type = 0;//0: new a server 1:edit a server
 
     private boolean checkAddress(String address){
         if(Strings.isNullOrEmpty(address)) return false;
@@ -94,6 +95,12 @@ public class ServerEditDialogController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        if(serverInf != null) {
+            name_tv.setText(serverInf.getName());
+            address_tv.setText(serverInf.getAddress());
+            path_tv.setText(serverInf.getPath());
+        }
+
         RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
         requiredFieldValidator.setMessage("内容为空");
 
@@ -121,7 +128,6 @@ public class ServerEditDialogController implements Initializable {
                 address_tv.validate();
             }
         }));
-
 
         cancel_btn.setOnMouseClicked(event -> {close();});
 
@@ -157,6 +163,7 @@ public class ServerEditDialogController implements Initializable {
                     ServerInf serverInf = new ServerInf();
                     serverInf.setName(name_tv.getText());
                     serverInf.setAddress(address_tv.getText());
+                    serverInf.setPath(path_tv.getText());
 
                     ServerEvent serverEvent = new ServerEvent(serverInf);
                     actionEvent.handle(serverEvent);
@@ -170,6 +177,14 @@ public class ServerEditDialogController implements Initializable {
         if(!Objects.isNull(dialog)){
             dialog.close();
         }
+    }
+
+    public void setContent(@NonNull ServerInf serverInf){
+        this.serverInf = serverInf;
+        name_tv.setText(serverInf.getName());
+        address_tv.setText(serverInf.getAddress());
+        path_tv.setText(serverInf.getPath());
+        type = 1;
     }
 
     public void setDialog(JFXAlert dialog) {
@@ -190,7 +205,8 @@ public class ServerEditDialogController implements Initializable {
         protected void eval() {
             if(srcControl.get() instanceof TextInputControl){
                 TextInputControl textInputControl = (TextInputControl) srcControl.get();
-                if(findSameName(textInputControl.getText())){
+                if((type == 0 && findSameName(textInputControl.getText())) ||
+                        (type ==1 && (findSameName(textInputControl.getText()) && !serverInf.getName().equals(textInputControl.getText())))){
                     hasErrors.set(true);
                 }else {
                     hasErrors.set(false);

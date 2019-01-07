@@ -555,7 +555,7 @@ public class VersionRange
         {
             if ( containsVersion( version ) )
             {
-                // valid - check if it is greater than the currently matched version
+                // valid - check if it is greater than the current matched version
                 if ( matched == null || version.compareTo( matched ) > 0 )
                 {
                     matched = version;

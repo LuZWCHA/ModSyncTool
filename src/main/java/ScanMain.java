@@ -14,6 +14,7 @@ import com.software.gui.controllers.MyDecorator;
 import com.software.gui.controllers.SettingDialogController;
 import com.software.gui.logic.CacheManager;
 import com.software.gui.logic.DirInfoCache;
+import com.software.gui.logic.ServersCache;
 import com.software.gui.utils.DrawUtil;
 import com.software.gui.utils.UIString;
 import com.software.gui.utils.VersionCompareHelper;
@@ -184,8 +185,7 @@ public class ScanMain extends Application {
             logger.info("config read failed,skip");
         }
 
-        DirInfoCache cache = new DirInfoCache(Config.PATH);
-        CacheManager.INSTANCE.registerCache(CacheManager.Key.createKey(0,DirInfoCache.class),cache);
+        CacheManager.INSTANCE.registerCache(CacheManager.Key.createKey(0,DirInfoCache.class),new DirInfoCache(Config.PATH));
 
         URL url = getClass().getResource("main.fxml");
 
@@ -229,6 +229,9 @@ public class ScanMain extends Application {
                         dialog.initModality(Modality.APPLICATION_MODAL);
                         dialog.setOverlayClose(true);
                         controller.setDialog(dialog);
+                    }else{
+                        ServersCache serversCache = CacheManager.INSTANCE.getCache(1);
+                        controller.updateServers(serversCache);
                     }
                     dialog.show();
                 } catch (IOException e) {

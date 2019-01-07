@@ -2,7 +2,6 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import com.jfoenix.controls.JFXToolbar?>
 <?import javafx.scene.image.Image?>
@@ -12,30 +11,24 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="root" prefHeight="342.0" prefWidth="260.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.software.gui.controllers.SettingDialogController">
+<AnchorPane fx:id="root" prefHeight="295.0" prefWidth="260.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.software.gui.controllers.SettingDialogController">
    <children>
-      <JFXTextField fx:id="address_tv" focusColor="#252525" layoutX="62.0" layoutY="70.0" prefHeight="23.0" prefWidth="165.0" promptText="服务器地址" unFocusColor="#979797" />
-      <JFXTextField fx:id="path_tv" focusColor="#1b1b1b" layoutX="62.0" layoutY="129.0" prefHeight="23.0" prefWidth="113.0" promptText="Mods文件夹路径" unFocusColor="#9e9e9e" />
-      <JFXButton fx:id="save_btn" buttonType="RAISED" layoutX="186.0" layoutY="294.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="44.0" style="-fx-background-color: #474747;" text="保存" textFill="WHITE">
+      <JFXButton fx:id="save_btn" buttonType="RAISED" layoutX="186.0" layoutY="286.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="44.0" style="-fx-background-color: #474747;" text="保存" textFill="WHITE" AnchorPane.bottomAnchor="20.0">
          <font>
             <Font name="Microsoft YaHei" size="12.0" />
          </font></JFXButton>
-      <JFXButton fx:id="cancel_btn" layoutX="125.0" layoutY="295.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="44.0" style="-fx-background-color: #eeeeee;" text="取消" textFill="#434242">
+      <JFXButton fx:id="cancel_btn" layoutX="125.0" layoutY="287.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="44.0" style="-fx-background-color: #eeeeee;" text="取消" textFill="#434242" AnchorPane.bottomAnchor="20.0">
          <font>
             <Font name="Microsoft YaHei UI" size="12.0" />
-         </font></JFXButton>
-      <JFXButton fx:id="travel_btn" layoutX="183.0" layoutY="129.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="44.0" style="-fx-background-color: #eeeeee;" text="浏览..." textFill="#545353">
-         <font>
-            <Font size="10.0" />
          </font></JFXButton>
       <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="35.0" layoutY="73.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/server.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="35.0" layoutY="132.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="35.0" layoutY="133.0" opacity="0.75" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/folder.png" />
+            <Image url="@images/threads.png" />
          </image>
       </ImageView>
       <JFXToolbar prefHeight="33.0" prefWidth="260.0" style="-fx-background-color: #454545;">
@@ -46,10 +39,11 @@
                </font></Text>
          </center>
       </JFXToolbar>
-      <JFXToggleButton fx:id="relative_path_togbtn" alignment="BASELINE_LEFT" layoutX="26.0" layoutY="162.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="198.0" size="7.0" text="尝试存储为相对路径" textAlignment="RIGHT" textFill="#464646" toggleColor="WHITE" toggleLineColor="#6e6e6e" unToggleLineColor="#a9a9a9">
+      <JFXToggleButton fx:id="relative_path_togbtn" alignment="BASELINE_LEFT" layoutX="31.0" layoutY="177.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="198.0" size="7.0" text="尝试存储为相对路径" textAlignment="RIGHT" textFill="#464646" toggleColor="WHITE" toggleLineColor="#6e6e6e" unToggleLineColor="#a9a9a9">
          <font>
             <Font name="Microsoft YaHei UI" size="12.0" />
          </font></JFXToggleButton>
-      <JFXComboBox fx:id="download_num_combox" focusColor="#434343" labelFloat="true" layoutX="44.0" layoutY="225.0" prefHeight="22.0" prefWidth="173.0" promptText="下载线程总数" unFocusColor="#9a9a9a" />
+      <JFXComboBox fx:id="download_num_combox" focusColor="#434343" labelFloat="true" layoutX="58.0" layoutY="131.0" prefHeight="22.0" prefWidth="173.0" promptText="下载线程总数" unFocusColor="#9a9a9a" />
+      <JFXComboBox fx:id="server_name_combox" focusColor="#434343" layoutX="58.0" layoutY="72.0" prefHeight="23.0" prefWidth="173.0" promptText="选择服务器" unFocusColor="#9a9a9a" />
    </children>
 </AnchorPane>

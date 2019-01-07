@@ -9,12 +9,18 @@ import com.software.gui.utils.FileHelper;
 import java.io.*;
 
 public class Config {
-    public static String PATH;
-    public static String SERVER_ADDRESS = "http://116.196.86.6:25531";
-    public static boolean USE_RELATIVE_PATH = false;
-    public static int DOWNLOAD_THREAD_NUM = 1;
+    public static final String DEFAULT_SERVER_NAME = "默认服务器";
+    public static final String DEFAULT_SERVER_ADDRESS = "http://116.196.86.6:25531";
+    public static final boolean DEFAULT_USE_RELATIVE_PATH = false;
+    public static final int DEFAULT_DOWNLOAD_THREAD_NUM = 1;
 
-    private static String configName = "sync.config";
+    public static String SERVER_NAME = DEFAULT_SERVER_NAME;
+    public static String PATH;
+    public static String SERVER_ADDRESS = DEFAULT_SERVER_ADDRESS;
+    public static boolean USE_RELATIVE_PATH = DEFAULT_USE_RELATIVE_PATH;
+    public static int DOWNLOAD_THREAD_NUM = DEFAULT_DOWNLOAD_THREAD_NUM;
+
+    private static String CONFIG_NAME = "sync.config";
 
     public static String getFormatURL(){
         if(!SERVER_ADDRESS.contains("http://") && !SERVER_ADDRESS.contains("https://"))
@@ -28,7 +34,7 @@ public class Config {
 
 
     public static void save() throws Exception{
-        File file = new File(configName);// 把json保存项目根目录下无后缀格式的文本
+        File file = new File(CONFIG_NAME);// 把json保存项目根目录下无后缀格式的文本
         OutputStream out = new FileOutputStream(file);
         JsonWriter writer = new JsonWriter(new OutputStreamWriter(out, "UTF-8"));//设计编码
 
@@ -49,14 +55,15 @@ public class Config {
             }
         }
 
-        gson.toJson(new SyncConfig(realPath,SERVER_ADDRESS,USE_RELATIVE_PATH, DOWNLOAD_THREAD_NUM), SyncConfig.class, writer);
+        gson.toJson(new SyncConfig(SERVER_NAME,realPath,SERVER_ADDRESS,USE_RELATIVE_PATH, DOWNLOAD_THREAD_NUM), SyncConfig.class, writer);
         writer.flush();
         writer.close();
     }
 
     public static void read() throws Exception{
         Config.PATH = FileHelper.getJarDir();
-        File file = new File(configName);
+
+        File file = new File(CONFIG_NAME);
         InputStream in = new FileInputStream(file);
         JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
 
@@ -66,6 +73,7 @@ public class Config {
         SyncConfig syncConfig;
         syncConfig = gson.fromJson(reader,SyncConfig.class);
 
+        SERVER_NAME = syncConfig.serverName;
         PATH = syncConfig.path;
         SERVER_ADDRESS = syncConfig.serverAddress;
         USE_RELATIVE_PATH = syncConfig.useRelativePath;
@@ -82,6 +90,8 @@ public class Config {
         }
         if(!new File(PATH).isDirectory()){
             PATH = currentPath;
+            SERVER_NAME = DEFAULT_SERVER_NAME;
+            SERVER_ADDRESS = DEFAULT_SERVER_ADDRESS;
         }
         reader.close();
     }
@@ -94,12 +104,14 @@ public class Config {
     }
 
     private static class SyncConfig{
+        private String serverName;
         private String path ;
         private String serverAddress;
         private boolean useRelativePath;
         private int downloadThreadNum;
 
-        public SyncConfig(String path, String serverAddress, boolean useRelativePath, int downloadThreadNum) {
+        public SyncConfig(String serverName,String path, String serverAddress, boolean useRelativePath, int downloadThreadNum) {
+            this.serverName = serverName;
             this.path = path;
             this.serverAddress = serverAddress;
             this.useRelativePath = useRelativePath;
@@ -140,6 +152,14 @@ public class Config {
 
         public void setDownloadThreadNum(int downloadThreadNum) {
             this.downloadThreadNum = downloadThreadNum;
+        }
+
+        public String getServerName() {
+            return serverName;
+        }
+
+        public void setServerName(String serverName) {
+            this.serverName = serverName;
         }
     }
 }

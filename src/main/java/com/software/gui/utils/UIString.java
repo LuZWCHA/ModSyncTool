@@ -4,6 +4,9 @@ public class UIString {
     public static String delete0 = "删除";
     public static String delete1 = "删 除";
     public static String delete2 = "删  除";
+    public static String edit0 = "编辑";
+    public static String edit1 = "编 辑";
+    public static String edit2 = "编  辑";
     public static String cancel0 = "取消";
     public static String cancel1 = "取 消";
     public static String cancel2 = "取  消";

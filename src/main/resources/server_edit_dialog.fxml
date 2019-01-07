@@ -9,8 +9,9 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="root" prefHeight="254.0" prefWidth="254.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.software.gui.controllers.ServerEditDialogController">
+   <JFXTextField fx:id="name_tv" focusColor="#252525" layoutX="62.0" layoutY="61.0" prefHeight="23.0" prefWidth="165.0" promptText="服务器名" unFocusColor="#979797" />
     <JFXTextField fx:id="address_tv" focusColor="#252525" layoutX="62.0" layoutY="105.0" prefHeight="23.0" prefWidth="165.0" promptText="服务器地址" unFocusColor="#979797" />
-    <JFXTextField fx:id="path_tv" focusColor="#1b1b1b" layoutX="62.0" layoutY="152.0" prefHeight="23.0" prefWidth="113.0" promptText="Mods文件夹路径" unFocusColor="#9e9e9e" />
+    <JFXTextField fx:id="path_tv" disable="true" editable="false" focusColor="#1b1b1b" layoutX="62.0" layoutY="152.0" prefHeight="23.0" prefWidth="113.0" promptText="Mods文件夹路径" unFocusColor="#9e9e9e" />
     <JFXButton fx:id="save_btn" buttonType="RAISED" layoutX="201.0" layoutY="209.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="44.0" style="-fx-background-color: #474747;" text="保存" textFill="WHITE" AnchorPane.bottomAnchor="20.0">
         <font>
             <Font name="Microsoft YaHei" size="12.0" />
@@ -23,18 +24,14 @@
         <font>
             <Font size="10.0" />
         </font></JFXButton>
-    <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="35.0" layoutY="64.0" opacity="0.5" pickOnBounds="true"
-               preserveRatio="true">
-        <Image url="@images/server.png"/>
+    <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="35.0" layoutY="64.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+        <Image url="@images/server.png" />
     </ImageView>
-    <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="35.0" layoutY="155.0" opacity="0.5" pickOnBounds="true"
-               preserveRatio="true">
-        <Image url="@images/folder.png"/>
+    <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="35.0" layoutY="155.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+        <Image url="@images/folder.png" />
     </ImageView>
     <JFXToolbar prefHeight="33.0" prefWidth="260.0" style="-fx-background-color: #454545;" />
-   <JFXTextField fx:id="name_tv" focusColor="#252525" layoutX="62.0" layoutY="61.0" prefHeight="23.0" prefWidth="165.0" promptText="服务器名" unFocusColor="#979797" />
-    <ImageView fitHeight="26.0" fitWidth="29.0" layoutX="32.0" layoutY="102.0" opacity="0.7" pickOnBounds="true"
-               preserveRatio="true">
-        <Image url="@images/link.png"/>
+    <ImageView fitHeight="26.0" fitWidth="29.0" layoutX="32.0" layoutY="102.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
+        <Image url="@images/link.png" />
     </ImageView>
 </AnchorPane>
