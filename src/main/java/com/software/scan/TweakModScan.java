@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -24,7 +25,7 @@ public class TweakModScan extends AbstractScanProcess<TweakMod> {
 
     public TweakModScan()
     {
-        TweakModStandData = new HashMap<>(4);
+        TweakModStandData = new HashMap<>(5);
     }
 
     @Override
@@ -47,11 +48,18 @@ public class TweakModScan extends AbstractScanProcess<TweakMod> {
         Manifest manifest = jf.getManifest();
         WrapperMod<TweakMod> wm = WrapperMod.createEmpty();
 
+        String FMLCoreModAtrName = "FMLCorePlugin";
+
         Optional.ofNullable(manifest).ifPresent(manifest1 -> {
             resetMap();
 
             manifest1.getMainAttributes().entrySet().stream()
-                    .filter(e -> TweakModStandData.containsKey(e.getKey().toString()))
+                    .filter(new Predicate<Map.Entry<Object, Object>>() {
+                        @Override
+                        public boolean test(Map.Entry<Object, Object> e) {
+                            return TweakModStandData.containsKey(e.getKey().toString());
+                        }
+                    })
                     .forEachOrdered(e -> {
                 TweakModStandData.replace(e.getKey().toString(), e.getValue().toString());
             });
@@ -60,6 +68,17 @@ public class TweakModScan extends AbstractScanProcess<TweakMod> {
             {
                 TweakMod tweakMod = new TweakMod();
                 String tweakClassName = ScanUtil.getLastWorldOf(TweakModStandData.get(TweakMod.MFFILE.TweakClass.name()),".");
+                String tweakModId = tweakClassName.toLowerCase();
+                if(tweakModId.contains("tweaker"))
+                    tweakModId = tweakModId.replaceAll("tweaker","");
+                tweakMod.setId(tweakModId);
+                tweakMod.setTweakClass(tweakClassName);
+                tweakMod.setVersion(TweakModStandData.get(TweakMod.MFFILE.TweakVersion.name()));
+                tweakMod.setMode(Mod.MODE.TWEAK);
+                wm.wrap(tweakMod);
+            }else if(!TweakModStandData.get(TweakMod.MFFILE.FMLCorePlugin.name()).isEmpty()){
+                TweakMod tweakMod = new TweakMod();
+                String tweakClassName = ScanUtil.getLastWorldOf(TweakModStandData.get(TweakMod.MFFILE.FMLCorePlugin.name()),".");
                 String tweakModId = tweakClassName.toLowerCase();
                 if(tweakModId.contains("tweaker"))
                     tweakModId = tweakModId.replaceAll("tweaker","");
@@ -78,5 +97,6 @@ public class TweakModScan extends AbstractScanProcess<TweakMod> {
         TweakModStandData.put(TweakMod.MFFILE.TweakAuthor.name(),"");
         TweakModStandData.put(TweakMod.MFFILE.TweakName.name(),"");
         TweakModStandData.put(TweakMod.MFFILE.TweakVersion.name(),"");
+        TweakModStandData.putIfAbsent(TweakMod.MFFILE.FMLCorePlugin.name(),"");
     }
 }

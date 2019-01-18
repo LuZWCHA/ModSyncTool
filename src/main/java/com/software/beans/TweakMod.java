@@ -11,7 +11,9 @@ public class TweakMod extends AbstractMod {
         TweakClass,
         TweakAuthor,
         TweakName,
-        TweakVersion
+        TweakVersion,
+
+        FMLCorePlugin
     };
 
     public String getTweakClass() {

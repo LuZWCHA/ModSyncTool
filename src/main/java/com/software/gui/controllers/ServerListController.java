@@ -56,9 +56,6 @@ public class ServerListController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 setupServerEditor(content,controller,dialog);
-
-
-
             }
         });
         serverList.getStylesheets()
