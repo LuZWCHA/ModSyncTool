@@ -29,6 +29,16 @@ public final class DTask{
         return new DTask(id, url, fileName);
     }
 
+    public DTask setDownloadPath(String downloadPath){
+        downloadInfo.setDownloadPath(downloadPath);
+        return this;
+    }
+
+    public DTask setFileName(String fileName){
+        downloadInfo.setRealFileName(fileName);
+        return this;
+    }
+
     private DTask(UUID id, String url, String fileName) {
         this.id = id;
         downloadInfo = DownloadInfo.create(DownloadInfo.DownloadStatus.DOWNLOAD_CONFIG);

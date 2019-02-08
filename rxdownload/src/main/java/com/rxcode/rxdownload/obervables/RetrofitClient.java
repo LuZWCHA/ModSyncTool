@@ -9,17 +9,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public enum RetrofitClient {
     INSTANCE;
     private Retrofit retrofit;
     RetrofitClient(){
         List<Protocol> protocols = new ArrayList<>();
-        protocols.add(Protocol.HTTP_2);//(Protocol.HTTP_2);
+        protocols.add(Protocol.HTTP_2);
         protocols.add(Protocol.HTTP_1_1);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .protocols(protocols)
                 .retryOnConnectionFailure(true)
+                .connectTimeout(30, TimeUnit.SECONDS)
                 .build();
 
         retrofit = new Retrofit.Builder()
@@ -33,7 +35,6 @@ public enum RetrofitClient {
     public<T> T create(Class<T> tClass){
         return retrofit.create(tClass);
     }
-
 
     public String getBaseUrl(){
         return retrofit.baseUrl().toString();

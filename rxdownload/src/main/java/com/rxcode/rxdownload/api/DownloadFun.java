@@ -44,10 +44,12 @@ public class DownloadFun implements FlowableTransformer<RxCarrier, RxCarrier> {
                                     //reset file name
                                     if(DownloadConfig.isUseDefaultNameFirst()) {
                                         String rfileName = HttpHelper.getFileName(voidResponse);
-                                        if (!rfileName.isEmpty()) {
-                                            downloadInfo.setRealFileName(rfileName);
-                                            downloadInfo.setTempFileName(rfileName + DownloadConfig.getTempSuffix());
+                                        if (rfileName.isEmpty()) {
+                                            int index = downloadInfo.getUrl().lastIndexOf('/');
+                                            rfileName = downloadInfo.getUrl().substring(index+1);
                                         }
+                                        downloadInfo.setRealFileName(rfileName);
+                                        downloadInfo.setTempFileName(rfileName + DownloadConfig.getTempSuffix());
                                     }
                                     if(!Objects.isNull(voidResponse.headers().get("Accept-Ranges"))){
                                         downloadInfo.setDownloadType(1);
@@ -63,7 +65,7 @@ public class DownloadFun implements FlowableTransformer<RxCarrier, RxCarrier> {
 
                         DownloadInfo downloadInfo = (DownloadInfo) o;
                         AbstractDownload download = new RangeDownload(downloadInfo,service);
-                        File file = new File(DownloadConfig.getAbsolutePath(downloadInfo.getTempFileName()));
+                        File file = new File(DTaskUtil.makeAbsolutePath(downloadInfo.getDownloadPath(),downloadInfo.getTempFileName()));
 
                         return download.start(downloadInfo)
                                 .retry(throwable -> {

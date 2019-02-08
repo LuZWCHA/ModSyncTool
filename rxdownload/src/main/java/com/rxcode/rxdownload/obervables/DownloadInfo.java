@@ -1,5 +1,6 @@
 package com.rxcode.rxdownload.obervables;
 
+import com.rxcode.rxdownload.DownloadConfig;
 import com.rxcode.rxdownload.api.RxCarrier;
 
 import java.util.UUID;
@@ -16,6 +17,7 @@ public final class DownloadInfo<T> implements RxCarrier,Cloneable {
     private String tempFileName;
     private String url;
 
+    private String downloadPath;
     private double downloadSpeed;
     private T data;
 
@@ -28,6 +30,7 @@ public final class DownloadInfo<T> implements RxCarrier,Cloneable {
     public static DownloadInfo create(DownloadStatus status){
         DownloadInfo downloadInfo = create();
         downloadInfo.setDownloadStatus(status);
+        downloadInfo.setDownloadPath(DownloadConfig.getDefaultDownloadPath());
         return downloadInfo;
     }
 
@@ -143,6 +146,14 @@ public final class DownloadInfo<T> implements RxCarrier,Cloneable {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    public String getDownloadPath() {
+        return downloadPath;
+    }
+
+    public void setDownloadPath(String downloadPath) {
+        this.downloadPath = downloadPath;
     }
 
     public enum DownloadStatus{

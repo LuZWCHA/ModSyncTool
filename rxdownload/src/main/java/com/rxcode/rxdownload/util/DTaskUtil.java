@@ -2,6 +2,7 @@ package com.rxcode.rxdownload.util;
 
 
 import com.rxcode.rxdownload.obervables.DTask;
+import com.rxcode.rxdownload.obervables.DownloadInfo;
 
 import java.io.File;
 import java.util.UUID;
@@ -22,6 +23,8 @@ public class DTaskUtil {
         return false;
     }
 
+
+
     public static boolean checkFileExits(String fileNmae){
         if(fileNmae != null && !fileNmae.isEmpty()){
             File file = new File(fileNmae);
@@ -32,5 +35,15 @@ public class DTaskUtil {
 
     public static DTask createFakeDTask(UUID uuid){
         return DTask.create(uuid,"","");
+    }
+
+    public static String getAbsolutePath(DownloadInfo downloadInfo){
+        return makeAbsolutePath(downloadInfo.getDownloadPath(),downloadInfo.getRealFileName());
+    }
+
+    public static String makeAbsolutePath(String downloadPath,String fileName){
+        if(!downloadPath.endsWith("/") && !downloadPath.endsWith("\\"))
+            downloadPath += "/";
+        return downloadPath + fileName;
     }
 }

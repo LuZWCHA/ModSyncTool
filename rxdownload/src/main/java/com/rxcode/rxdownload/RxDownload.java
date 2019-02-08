@@ -1,24 +1,18 @@
 package com.rxcode.rxdownload;
 
 import com.rxcode.rxdownload.api.DownloadFun;
-import com.rxcode.rxdownload.api.HttpGetService;
 import com.rxcode.rxdownload.api.RxCarrier;
 import com.rxcode.rxdownload.obervables.*;
 import com.rxcode.rxdownload.util.DTaskUtil;
 import io.reactivex.*;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.*;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
-import retrofit2.Response;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public final class RxDownload {
 
@@ -28,41 +22,11 @@ public final class RxDownload {
     //example
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        Flowable<Long> timer1 = Flowable.interval(1,TimeUnit.SECONDS)
-                .doOnSubscribe(new Consumer<Subscription>() {
-                    @Override
-                    public void accept(Subscription subscription) throws Exception {
-                        System.out.println("subscribe1");
-                    }
-                });
-
-        Flowable<Long> timer2 = Flowable.interval(3,TimeUnit.SECONDS,Schedulers.io())
-                .doOnSubscribe(new Consumer<Subscription>() {
-                    @Override
-                    public void accept(Subscription subscription) throws Exception {
-                        System.out.println("subscribe2");
-                    }
-                });
-
-        Flowable.combineLatest(timer1, timer2, new BiFunction<Long, Long, String>() {
-            @Override
-            public String apply(Long aLong, Long aLong2) throws Exception {
-                return String.valueOf(aLong) + ","+String.valueOf(aLong2);
-            }
-        }).blockingSubscribe(new Consumer<String>() {
-            @Override
-            public void accept(String s) throws Exception {
-                System.out.println(s);
-            }
-        });
-
-        DTask dTask = DTask.create("http://dg.101.hk/1.rar");
         DTask dTask2 = DTask.create("http://dg.101.hk/1.rar","download2.dl");
         DTask dTask3 = DTask.create("http://dg.101.hk/1.rar","download3.dl");
         DTask dTask4 = DTask.create("http://dg.101.hk/1.rar");
 
         List<DTask> list = new ArrayList<>();
-        list.add(dTask);
         list.add(dTask2);
         list.add(dTask3);
         list.add(dTask4);
@@ -151,7 +115,7 @@ public final class RxDownload {
                         String tempName = fileName + DownloadConfig.TEMP_SUFFIX;
                         task.getDownloadInfo().setTempFileName(tempName);
 
-                        return DTaskUtil.checkFileAndDelete(DownloadConfig.getAbsolutePath(tempName));
+                        return DTaskUtil.checkFileAndDelete(DTaskUtil.makeAbsolutePath(task.getDownloadInfo().getDownloadPath(),tempName));
                     }
                 })
                 .flatMap(new Function<DTask, Publisher<RxCarrier>>() {
@@ -188,7 +152,7 @@ public final class RxDownload {
         if(!path.endsWith("\\") && !path.endsWith("/")){
             path = path.concat("\\");
         }
-        DownloadConfig.DOWNLOAD_PATH = path;
+        DownloadConfig.DEFAULT_DOWNLOAD_PATH = path;
         return this;
     }
 }

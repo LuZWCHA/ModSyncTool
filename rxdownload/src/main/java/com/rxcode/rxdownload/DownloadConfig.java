@@ -6,7 +6,7 @@ public final class DownloadConfig {
     static long SAMPLE_INTERVAL = 500;
     static String UNKNOWN_NAME = "unknown";
     static boolean USE_DEFAULT_NAME_FIRST = true;
-    static String DOWNLOAD_PATH = "";
+    static String DEFAULT_DOWNLOAD_PATH = "";
     static boolean SKIP_COMPLETED_FILE = true;
 
     public static int getMaxTaskNum() {
@@ -21,8 +21,8 @@ public final class DownloadConfig {
         return TEMP_SUFFIX;
     }
 
-    public static String getDownloadPath() {
-        return DOWNLOAD_PATH;
+    public static String getDefaultDownloadPath() {
+        return DEFAULT_DOWNLOAD_PATH;
     }
 
     public static String getUnknownName() {
@@ -38,6 +38,6 @@ public final class DownloadConfig {
     }
 
     public static String getAbsolutePath(String fileName){
-        return DOWNLOAD_PATH + fileName;
+        return DEFAULT_DOWNLOAD_PATH + fileName;
     }
 }

@@ -47,7 +47,7 @@ public class NormalDownload extends AbstractDownload {
         return Flowable.fromCallable(new Callable<RxCarrier>() {
             @Override
             public RxCarrier call() throws Exception {
-                if(DTaskUtil.checkFileExits(DownloadConfig.getAbsolutePath(downloadInfo.getRealFileName()))) {
+                if(DTaskUtil.checkFileExits(DTaskUtil.getAbsolutePath(downloadInfo))) {
                     if(DownloadConfig.isSkipCompletedFile()) {
                         downloadInfo.setDownloadStatus(DownloadInfo.DownloadStatus.DOWNLOAD_FINISHED);
                         downloadInfo.setProgress(10000);
@@ -123,10 +123,13 @@ public class NormalDownload extends AbstractDownload {
                     buffer.close();
                     sink.close();
                     if(!emitter.isCancelled()) {
-                        file.renameTo(new File(DownloadConfig.getAbsolutePath(downloadInfo.getRealFileName())));
-                        downloadInfo.setDownloadStatus(DownloadInfo.DownloadStatus.DOWNLOAD_FINISHED);
-                        emitter.onNext(downloadInfo);
-                        emitter.onComplete();
+                        if(file.renameTo(new File(DTaskUtil.getAbsolutePath(downloadInfo)))) {
+                            downloadInfo.setDownloadStatus(DownloadInfo.DownloadStatus.DOWNLOAD_FINISHED);
+                            emitter.onNext(downloadInfo);
+                            emitter.onComplete();
+                        }else {
+                            emitter.tryOnError(new RuntimeException("rename failed"));
+                        }
                     }
                 }
 

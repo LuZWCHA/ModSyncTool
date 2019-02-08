@@ -3,6 +3,7 @@ package com.rxcode.rxdownload.obervables;
 import com.rxcode.rxdownload.DownloadConfig;
 import com.rxcode.rxdownload.api.HttpGetService;
 import com.rxcode.rxdownload.api.RxCarrier;
+import com.rxcode.rxdownload.util.DTaskUtil;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
@@ -38,7 +39,6 @@ public class RangeDownload extends NormalDownload {
                 emitter.setCancellable(new Cancellable() {
                     @Override
                     public void cancel() throws Exception {
-                        System.out.println(downloadInfo.getRealFileName()+"cancel");
                     }
                 });
 
@@ -78,10 +78,13 @@ public class RangeDownload extends NormalDownload {
                     buffer.close();
                     sink.close();
                     if(!emitter.isCancelled()) {
-                        file.renameTo(new File(DownloadConfig.getAbsolutePath(downloadInfo.getRealFileName())));
-                        downloadInfo.setDownloadStatus(DownloadInfo.DownloadStatus.DOWNLOAD_FINISHED);
-                        emitter.onNext(downloadInfo);
-                        emitter.onComplete();
+                        if(file.renameTo(new File(DTaskUtil.getAbsolutePath(downloadInfo)))) {
+                            downloadInfo.setDownloadStatus(DownloadInfo.DownloadStatus.DOWNLOAD_FINISHED);
+                            emitter.onNext(downloadInfo);
+                            emitter.onComplete();
+                        }else {
+                            emitter.tryOnError(new RuntimeException("rename failed"));
+                        }
                     }
                 }
 
@@ -91,7 +94,7 @@ public class RangeDownload extends NormalDownload {
 
     @Override
     public Flowable<Response<ResponseBody>> start(DownloadInfo downloadInfo) {
-        final long tempFileLenth =  new File(DownloadConfig.getAbsolutePath(downloadInfo.getTempFileName())).length();
-        return service.getFile(downloadInfo.getUrl(),String.format("bytes=%d-",tempFileLenth));
+        final long tempFileLength =  new File(DTaskUtil.makeAbsolutePath(downloadInfo.getDownloadPath(),downloadInfo.getTempFileName())).length();
+        return service.getFile(downloadInfo.getUrl(),String.format("bytes=%d-",tempFileLength));
     }
 }
