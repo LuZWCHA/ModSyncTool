@@ -1,12 +1,13 @@
 package com.software.gui.utils;
 
 public class VersionCompareHelper {
+
     /**
-     * Compare version,which use '.' or '_' to spilt the VersionNumber.(make true when '.' and '_' spilt the version number,each part needs same
+     * Compare VERSION,which use '.' or '_' to spilt the VersionNumber.(make true when '.' and '_' spilt the VERSION number,each part needs same
      * standard,for example,"1.8_12" compare with "1.8.0_12" are illegal)
      * Zero means they are equal.
-     * @param version1 first version
-     * @param version2 second version
+     * @param version1 first VERSION
+     * @param version2 second VERSION
      * @return If the first one greater than the second one,return positive number,else return negative number
      */
     public static int compareVersion(String version1, String version2) throws Exception {

@@ -5,7 +5,7 @@
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation version 2.1
+ * License as published by the Free Software Foundation VERSION 2.1
  * of the License.
  *
  * This library is distributed in the hope that it will be useful,
@@ -42,11 +42,11 @@ import java.lang.annotation.Target;
  * annotation.
  *
  * <p>This is a simple example of a Mod. It has the modId of "mymodid", the name of "My example mod", it is
- * version 1.0, and depends on FML being loaded.
+ * VERSION 1.0, and depends on FML being loaded.
  * <pre>{@code
  * package mymod;
- * // Declare that this is a mod with modId "mymodid", name "My example mod", version "1.0" and dependency on FML.
- * {@literal @}Mod(modId="mymodid",name="My example mod",version="1.0",dependencies="required-after:FML")
+ * // Declare that this is a mod with modId "mymodid", name "My example mod", VERSION "1.0" and dependency on FML.
+ * {@literal @}Mod(modId="mymodid",name="My example mod",VERSION="1.0",dependencies="required-after:FML")
  * public class MyMod {
  *      // Populate this field with the instance of the mod created by FML
  *      {@literal @}Instance("mymodid")
@@ -83,9 +83,9 @@ public @interface Mod
     String name() default "";
 
     /**
-     * A version string for this mod.
+     * A VERSION string for this mod.
      *
-     * The version string here should be just numbers separated by dots,
+     * The VERSION string here should be just numbers separated by dots,
      * to make specifying {@link #dependencies()} simple for other mods.
      *
      * See also: <a href="https://cwiki.apache.org/confluence/display/MAVENOLD/Versioning">"Versioning" on Maven Wiki</a>
@@ -99,17 +99,17 @@ public @interface Mod
      *     [before, after], [required], [client, server]
      *     At least one "before", "after", or "required" must be specified.
      * Then ":" and the mod id.
-     * Then a version range should be specified for the mod by adding "@" and the version range.
-     *     The version range format is described in the javadoc here:
+     * Then a VERSION range should be specified for the mod by adding "@" and the VERSION range.
+     *     The VERSION range format is described in the javadoc here:
      *     {@link #(String)}
      * Then a ";".
      *
-     * If a "required" mod is missing, or a mod exists with a version outside the specified range,
+     * If a "required" mod is missing, or a mod exists with a VERSION outside the specified range,
      * the game will not start and an error screen will tell the player which versions are required.
      *
      * Example:
      *     Our example mod:
-     *      * depends on Forge and uses new features that were introduced in Forge version 14.21.1.2395
+     *      * depends on Forge and uses new features that were introduced in Forge VERSION 14.21.1.2395
      *         "required:forge@[14.21.1.2395,);"
      *
      *          1.12.2 Note: for compatibility with Forge older than 14.23.0.2501 the syntax must follow this older format:
@@ -118,7 +118,7 @@ public @interface Mod
      *
      *      * is a dedicated addon to mod1 and has to have its event handlers run after mod1's are run,
      *         "required-after:mod1;"
-     *      * has optional integration with mod2 which depends on features introduced in mod2 version 4.7.0,
+     *      * has optional integration with mod2 which depends on features introduced in mod2 VERSION 4.7.0,
      *         "after:mod2@[4.7.0,);"
      *      * depends on a client-side-only rendering library called rendermod
      *         "required-client:rendermod;"
@@ -129,7 +129,7 @@ public @interface Mod
      *     This will stop the game and display an error message if any of these is true:
      *         The installed forge is too old,
      *         mod1 is missing,
-     *         an old version of mod2 is present,
+     *         an old VERSION of mod2 is present,
      *         rendermod is missing on the client.
      */
     String dependencies() default "";
@@ -154,29 +154,29 @@ public @interface Mod
 
     /**
      * The acceptable range of minecraft versions that this mod will load and run in
-     * The default ("empty string") indicates that the currently RUNNING minecraft version is acceptable.
-     * This means ANY version that the end user adds the mod to. Modders PLEASE set this.
-     * FML will refuse to run with an error if the minecraft version is not in this range across all mods.
-     * @return A version range as specified by the maven version range specification or the empty string
+     * The default ("empty string") indicates that the currently RUNNING minecraft VERSION is acceptable.
+     * This means ANY VERSION that the end user adds the mod to. Modders PLEASE set this.
+     * FML will refuse to run with an error if the minecraft VERSION is not in this range across all mods.
+     * @return A VERSION range as specified by the maven VERSION range specification or the empty string
      */
     String acceptedMinecraftVersions() default "";
     /**
-     * A replacement for the no-longer-existing "versionRange" of NetworkMod. Specify a remote version range
-     * that this mod will accept as valid. Defaults to nothing, which is interpreted as "only this version".
+     * A replacement for the no-longer-existing "versionRange" of NetworkMod. Specify a remote VERSION range
+     * that this mod will accept as valid. Defaults to nothing, which is interpreted as "only this VERSION".
      * Another special value is '*' which means accept all versions.
      *
      * This is ignored if there is a {@link } annotation on a method in this class.
      *
-     * @return A version range as specified by the maven version range specification or the empty string
+     * @return A VERSION range as specified by the maven VERSION range specification or the empty string
      */
     String acceptableRemoteVersions() default "";
 
     /**
-     * A version range specifying compatible save version information. If your mod follows good version numbering
+     * A VERSION range specifying compatible save VERSION information. If your mod follows good VERSION numbering
      * practice <a href="http://semver.org/">Like this (http://semver.org/)</a> then this should be sufficient.
      *
      * Advanced users can specify a {@link SaveInspectionHandler} instead.
-     * @return A version range as specified by the maven version range specification or the empty string
+     * @return A VERSION range as specified by the maven VERSION range specification or the empty string
      */
     String acceptableSaveVersions() default "";
     /**
@@ -232,7 +232,7 @@ public @interface Mod
 
     /**
      * An optional URL to a JSON file that will be checked once per launch to determine if there is an updated
-     * version of this mod and notify the end user. For more information see ForgeVersion.
+     * VERSION of this mod and notify the end user. For more information see ForgeVersion.
      * Format is defined here: https://gist.github.com/LexManos/7aacb9aa991330523884
      * @return URL to update metadata json
      */

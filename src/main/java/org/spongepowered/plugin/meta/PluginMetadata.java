@@ -49,7 +49,7 @@ import java.util.regex.Pattern;
 
 
 /**
- * Represents additional metadata for a specific version of a plugin.
+ * Represents additional metadata for a specific VERSION of a plugin.
  */
 public final class PluginMetadata implements Consumer<PluginMetadata> {
 
@@ -126,9 +126,9 @@ public final class PluginMetadata implements Consumer<PluginMetadata> {
     }
 
     /**
-     * Returns the plugin version.
+     * Returns the plugin VERSION.
      *
-     * @return The plugin version or {@code null} if unknown
+     * @return The plugin VERSION or {@code null} if unknown
      */
     @Nullable
     public String getVersion() {
@@ -136,9 +136,9 @@ public final class PluginMetadata implements Consumer<PluginMetadata> {
     }
 
     /**
-     * Sets the plugin version.
+     * Sets the plugin VERSION.
      *
-     * @param version The plugin version or {@code null} to reset
+     * @param version The plugin VERSION or {@code null} to reset
      */
     public void setVersion(@Nullable String version) {
         this.version = emptyToNull(version);

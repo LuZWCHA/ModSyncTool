@@ -1,15 +1,10 @@
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.jfoenix.animation.alert.JFXAlertAnimation;
 import com.jfoenix.controls.JFXAlert;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDecorator;
 import com.jfoenix.controls.JFXDialogLayout;
-import com.rxcode.rxdownload.obervables.RetrofitClient;
-import com.software.beans.AbstractMod;
-import com.software.beans.WrapperMod;
 import com.software.gui.Config;
-import com.software.gui.controllers.MainController2;
+import com.software.gui.controllers.AboutDialogController;
 import com.software.gui.controllers.MyDecorator;
 import com.software.gui.controllers.SettingDialogController;
 import com.software.gui.logic.CacheManager;
@@ -18,20 +13,14 @@ import com.software.gui.logic.ServersCache;
 import com.software.gui.utils.DrawUtil;
 import com.software.gui.utils.UIString;
 import com.software.gui.utils.VersionCompareHelper;
-import com.software.scan.JarsView;
-import com.sun.jmx.snmp.tasks.Task;
 import io.reactivex.exceptions.UndeliverableException;
 import io.reactivex.plugins.RxJavaPlugins;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.DialogEvent;
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -40,18 +29,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.net.SocketException;
 import java.net.URL;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 /**
@@ -86,66 +68,19 @@ public class ScanMain extends Application {
             //Log.warning("Undeliverable exception received, not sure what to do", e);
         });
 
-        if(args.length == 0) {
-            launch(args);
-            return;
-        }else {
-            JarsView jv = JarsView.create();
-            try {
-                String path;
-                if(args.length>1 && "-p".equals(args[0]) && args[1] != null) {
-                    path = args[1].trim();
-                }else{
-                    path =  ScanMain.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-                    path = path.substring(0,path.lastIndexOf("/"));
-                }
-                jv.setCallBack(new Subscriber<WrapperMod>() {
-                    File file;
-                    HashSet<AbstractMod> list;
-                    @Override
-                    public void onSubscribe(Subscription s) {
-                        file = new File("scanInfo.json");
-                        list = new HashSet<>();
-                    }
+        try {
+            String path;
+            if(args.length>1 && "-d".equals(args[0]) && args[1] != null) {
+                path = args[1].trim();
 
-                    @Override
-                    public void onNext(WrapperMod mod) {
-                        list.add(mod.get());
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-
-                    }
-
-                    @SuppressWarnings("ResultOfMethodCallIgnored")
-                    @Override
-                    public void onComplete() {
-                        if(!list.isEmpty()) {
-                            try {
-                                if(!file.exists())
-                                    file.createNewFile();
-                                Gson gson = new Gson();
-                                String s = gson.toJson(list);
-                                BufferedWriter writer = new BufferedWriter(new FileWriter(file,false));
-                                writer.write(s);
-                                writer.flush();
-                                writer.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                });;
-                jv.view(path);
-
-            } catch (IOException e) {
-                logger.config(e.getMessage());
-                logger.info(e.getMessage());
-            } catch (Exception e) {
-                logger.warning(e.getMessage());
+                File oldVersion = new File(path);
+                oldVersion.delete();
             }
+        } catch (Exception e) {
+            logger.warning(e.getMessage());
         }
+
+        launch(args);
     }
 
 
@@ -199,8 +134,6 @@ public class ScanMain extends Application {
                 UIString.min_screen,UIString.max_screen,UIString.close_main);
         primaryStage.setTitle(UIString.main_title);
 
-
-
         Scene scene = new Scene(decorator,330,560);
         scene.getStylesheets().add(getClass().getResource("css/global.css").toExternalForm());
         primaryStage.setScene(scene);
@@ -212,7 +145,7 @@ public class ScanMain extends Application {
             }
         });
 
-        ((MyDecorator) decorator).setSettingBtnListener(new EventHandler<MouseEvent>() {
+        ((MyDecorator) decorator).setBtnListener(new EventHandler<MouseEvent>() {
             Node content;
             SettingDialogController controller;
             JFXAlert dialog;
@@ -238,8 +171,52 @@ public class ScanMain extends Application {
                     logger.throwing(getClass().getSimpleName(),"onClick",e);
                 }
             }
+        },new EventHandler<MouseEvent>() {
+            Node content;
+            AboutDialogController controller;
+            Stage stage;
+            @Override
+            public void handle(MouseEvent event) {
+                try {
+                    if(content == null) {
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(Objects.requireNonNull(getClass().getClassLoader().getResource("about_dialog.fxml")));
+                        content = loader.load();
+                        controller = loader.getController();
+                    }
+                    if(stage == null){
+                        stage = newStage(content);
+                    }
+                    if(!stage.isShowing())
+                        stage.show();
+                    if(!stage.isFocused())
+                        stage.requestFocus();
+                } catch (IOException e) {
+                    logger.throwing(getClass().getSimpleName(),"onClick",e);
+                }
+            }
         });
 
         primaryStage.show();
     }
+
+    public Stage newStage(Node node){
+        Stage secondaryStage=new Stage();
+
+        JFXDecorator decorator = new JFXDecorator(secondaryStage,node,false,false,true);
+
+        DrawUtil.setJFXDecorator(decorator,Color.valueOf("#F4371E"),Color.WHITE,UIString.main_full_screen,
+                UIString.min_screen,UIString.max_screen,UIString.close_main);
+
+        secondaryStage.setTitle(UIString.main_title);
+
+        Scene secondaryScene=new Scene(decorator,400,450);
+        secondaryScene.getStylesheets().add(getClass().getResource("css/global.css").toExternalForm());
+
+        secondaryStage.setScene(secondaryScene);
+        secondaryStage.setTitle("关于");
+
+        return secondaryStage;
+    }
+
 }

@@ -38,7 +38,7 @@ public abstract class AbstractMod extends TransMod {
         return mod.getId().equals(getId());
     }
 
-    //check id and version
+    //check id and VERSION
     public boolean isTrulySame(@Nonnull AbstractMod mod){
         return mod.getId().equals(getId()) && !mod.getVersion().equals(Mod.MODE.UNKNOWN_VERSION) && mod.getVersion().equals(getVersion());
     }
@@ -59,7 +59,7 @@ public abstract class AbstractMod extends TransMod {
     @Override
     public String toString() {
         return ", id='" + getId() + '\'' +
-                ", version='" + getVersion() + '\'' +
+                ", VERSION='" + getVersion() + '\'' +
                 ", mode=" + getMode() +'\''+
                 ", filePath" + filePath + '\'' +
                 '}';

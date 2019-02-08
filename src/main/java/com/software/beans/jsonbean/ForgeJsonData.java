@@ -11,7 +11,7 @@ public class ForgeJsonData {
      * modid : neat
      * name : Neat
      * description : Minimalistic Functional Unit Plates for the modern Minecrafter
-     * version : 1.4-16
+     * VERSION : 1.4-16
      * mcversion : 1.12.2
      * logoFile :
      * url : http://www.vazkii.us
@@ -147,7 +147,7 @@ public class ForgeJsonData {
                 "modid='" + modid + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", version='" + version + '\'' +
+                ", VERSION='" + version + '\'' +
                 ", mcversion='" + mcversion + '\'' +
                 ", logoFile='" + logoFile + '\'' +
                 ", url='" + url + '\'' +

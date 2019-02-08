@@ -49,7 +49,7 @@ package org.spongepowered.plugin.meta.version;
  */
 
 /**
- * Occurs when a version is invalid.
+ * Occurs when a VERSION is invalid.
  *
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  */

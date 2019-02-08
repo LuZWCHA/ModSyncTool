@@ -56,7 +56,7 @@ import java.util.List;
 //import org.apache.maven.artifact.Artifact;
 
 /**
- * Construct a version range from a specification.
+ * Construct a VERSION range from a specification.
  *
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  */
@@ -101,7 +101,7 @@ public class VersionRange
     }
 
     /**
-     * Create a version range from a string representation
+     * Create a VERSION range from a string representation
      * <p/>
      * Some spec examples are
      * <ul>
@@ -112,7 +112,7 @@ public class VersionRange
      * <li><code>(,1.0],[1.2,)</code> Versions up to 1.0 (included) and 1.2 or higher</li>
      * </ul>
      *
-     * @param spec string representation of a version or version range
+     * @param spec string representation of a VERSION or VERSION range
      * @return a new {@link VersionRange} object that represents the spec
      * @throws InvalidVersionSpecificationException
      *
@@ -206,7 +206,7 @@ public class VersionRange
         {
             if ( !lowerBoundInclusive || !upperBoundInclusive )
             {
-                throw new InvalidVersionSpecificationException( "Single version must be surrounded by []: " + spec );
+                throw new InvalidVersionSpecificationException( "Single VERSION must be surrounded by []: " + spec );
             }
 
             ArtifactVersion version = new DefaultArtifactVersion( process );
@@ -235,7 +235,7 @@ public class VersionRange
 
             if ( upperVersion != null && lowerVersion != null && upperVersion.compareTo( lowerVersion ) < 0 )
             {
-                throw new InvalidVersionSpecificationException( "Range defies version ordering: " + spec );
+                throw new InvalidVersionSpecificationException( "Range defies VERSION ordering: " + spec );
             }
 
             restriction = new Restriction( lowerVersion, lowerBoundInclusive, upperVersion, upperBoundInclusive );
@@ -252,28 +252,28 @@ public class VersionRange
 
     /**
      * Creates and returns a new <code>VersionRange</code> that is a restriction of this
-     * version range and the specified version range.
+     * VERSION range and the specified VERSION range.
      * <p>
-     * Note: Precedence is given to the recommended version from this version range over the
-     * recommended version from the specified version range.
+     * Note: Precedence is given to the recommended VERSION from this VERSION range over the
+     * recommended VERSION from the specified VERSION range.
      * </p>
      *
-     * @param restriction the <code>VersionRange</code> that will be used to restrict this version
+     * @param restriction the <code>VersionRange</code> that will be used to restrict this VERSION
      *                    range.
-     * @return the <code>VersionRange</code> that is a restriction of this version range and the
-     *         specified version range.
+     * @return the <code>VersionRange</code> that is a restriction of this VERSION range and the
+     *         specified VERSION range.
      *         <p>
-     *         The restrictions of the returned version range will be an intersection of the restrictions
-     *         of this version range and the specified version range if both version ranges have
+     *         The restrictions of the returned VERSION range will be an intersection of the restrictions
+     *         of this VERSION range and the specified VERSION range if both VERSION ranges have
      *         restrictions. Otherwise, the restrictions on the returned range will be empty.
      *         </p>
      *         <p>
-     *         The recommended version of the returned version range will be the recommended version of
-     *         this version range, provided that ranges falls within the intersected restrictions. If
-     *         the restrictions are empty, this version range's recommended version is used if it is not
-     *         <code>null</code>. If it is <code>null</code>, the specified version range's recommended
-     *         version is used (provided it is non-<code>null</code>). If no recommended version can be
-     *         obtained, the returned version range's recommended version is set to <code>null</code>.
+     *         The recommended VERSION of the returned VERSION range will be the recommended VERSION of
+     *         this VERSION range, provided that ranges falls within the intersected restrictions. If
+     *         the restrictions are empty, this VERSION range's recommended VERSION is used if it is not
+     *         <code>null</code>. If it is <code>null</code>, the specified VERSION range's recommended
+     *         VERSION is used (provided it is non-<code>null</code>). If no recommended VERSION can be
+     *         obtained, the returned VERSION range's recommended VERSION is set to <code>null</code>.
      *         </p>
      * @throws NullPointerException if the specified <code>VersionRange</code> is
      *                              <code>null</code>.
@@ -312,22 +312,22 @@ public class VersionRange
                 }
             }
         }
-        // Either the original or the specified version ranges have no restrictions
+        // Either the original or the specified VERSION ranges have no restrictions
         else if ( recommendedVersion != null )
         {
-            // Use the original recommended version since it exists
+            // Use the original recommended VERSION since it exists
             version = recommendedVersion;
         }
         else if ( restriction.recommendedVersion != null )
         {
-            // Use the recommended version from the specified VersionRange since there is no
-            // original recommended version
+            // Use the recommended VERSION from the specified VersionRange since there is no
+            // original recommended VERSION
             version = restriction.recommendedVersion;
         }
 /* TODO: should throw this immediately, but need artifact
         else
         {
-            throw new OverConstrainedVersionException( "Restricting incompatible version ranges" );
+            throw new OverConstrainedVersionException( "Restricting incompatible VERSION ranges" );
         }
 */
 
@@ -487,10 +487,10 @@ public class VersionRange
     /*public ArtifactVersion getSelectedVersion( Artifact artifact )
         throws OverConstrainedVersionException
     {
-        ArtifactVersion version;
+        ArtifactVersion VERSION;
         if ( recommendedVersion != null )
         {
-            version = recommendedVersion;
+            VERSION = recommendedVersion;
         }
         else
         {
@@ -499,9 +499,9 @@ public class VersionRange
                 throw new OverConstrainedVersionException( "The artifact has no valid ranges", artifact );
             }
 
-            version = null;
+            VERSION = null;
         }
-        return version;
+        return VERSION;
     }
 
     public boolean isSelectedVersionKnown( Artifact artifact )
@@ -555,7 +555,7 @@ public class VersionRange
         {
             if ( containsVersion( version ) )
             {
-                // valid - check if it is greater than the current matched version
+                // valid - check if it is greater than the current matched VERSION
                 if ( matched == null || version.compareTo( matched ) > 0 )
                 {
                     matched = version;

@@ -38,7 +38,7 @@ public class NLCompareRecorder {
 
     private Set<TransMod> lostMods;//server needed mods
     private Map<String, List<TransMod>> redundantMods;//different from server,the mods are redundant for server
-    private List<TransMod> conflictMods;//id version are same (delete by code)
+    private List<TransMod> conflictMods;//id VERSION are same (delete by code)
     private DirInfoCache cache;
     private RxDownload rxDownload ;
 
@@ -106,7 +106,7 @@ public class NLCompareRecorder {
         cache.getTransMods().forEach(mod -> {
             if (serverModIds.contains(mod.getId())) {
                 mod.setFromServer(true);
-                //if version not same
+                //if VERSION not same
                 if (!serverMods.contains(mod)) {
                     conflictMods.add(mod);
                 }
@@ -129,7 +129,7 @@ public class NLCompareRecorder {
                             //same mod
                             conflictMods.add(mod);
                         } else {
-                            //add the mod if version not same
+                            //add the mod if VERSION not same
                             transModSet.add(mod);
                         }
                     } else {
@@ -152,7 +152,7 @@ public class NLCompareRecorder {
     public Flowable<RxCarrier> syncMods(@NonNull DownloadTaskCallBack callBack) throws Exception {
         checkNull(cache);
         rxDownload.setMaxTaskNum(Config.DOWNLOAD_THREAD_NUM);
-        //cache my be changed
+        //cache may be changed
         updateDownloadPath();
         return getModList()
                 .flatMap(new Function<List<TransMod>, Publisher<Set<TransMod>>>() {

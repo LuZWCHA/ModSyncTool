@@ -44,14 +44,14 @@ public @interface Dependency {
     String id();
 
     /**
-     * The required version range of the dependency.
+     * The required VERSION range of the dependency.
      *
-     * <p>The version range will be specified in <b>Maven version range
+     * <p>The VERSION range will be specified in <b>Maven VERSION range
      * syntax</b>:</p>
      *
      * <table>
      * <tr><th>Range</th><th>Meaning</th></tr>
-     * <tr><td>1.0</td><td>Any dependency version, 1.0 is recommended</td></tr>
+     * <tr><td>1.0</td><td>Any dependency VERSION, 1.0 is recommended</td></tr>
      * <tr><td>[1.0]</td><td>x == 1.0</td></tr>
      * <tr><td>[1.0,)</td><td>x &gt;= 1.0</td></tr>
      * <tr><td>(1.0,)</td><td>x &gt; 1.0</td></tr>
@@ -61,9 +61,9 @@ public @interface Dependency {
      * <tr><td>[1.0,2.0]</td><td>1.0 &lt;= x &lt;= 2.0</td></tr>
      * </table>
      *
-     * @return The required version range, or an empty string if unspecified
-     * @see <a href="https://goo.gl/edrup4">Maven version range specification</a>
-     * @see <a href="https://goo.gl/WBsFIu">Maven version design document</a>
+     * @return The required VERSION range, or an empty string if unspecified
+     * @see <a href="https://goo.gl/edrup4">Maven VERSION range specification</a>
+     * @see <a href="https://goo.gl/WBsFIu">Maven VERSION design document</a>
      */
     String version() default "";
 

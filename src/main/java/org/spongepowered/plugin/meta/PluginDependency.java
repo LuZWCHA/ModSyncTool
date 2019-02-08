@@ -70,12 +70,12 @@ public final class PluginDependency {
 
     /**
      * Constructs a new {@link PluginDependency} with the given plugin ID and
-     * version range.
+     * VERSION range.
      *
      * @param loadOrder The order to load the dependency in relation to the
      *     plugin
      * @param id The plugin ID of the dependency
-     * @param version The version range of the dependency or {@code null}
+     * @param version The VERSION range of the dependency or {@code null}
      * @param optional Whether the dependency is optional
      * @throws IllegalArgumentException If the plugin ID is empty
      * @see #getVersion() Version range syntax
@@ -107,15 +107,15 @@ public final class PluginDependency {
     }
 
     /**
-     * Returns the version range this {@link PluginDependency} should match.
+     * Returns the VERSION range this {@link PluginDependency} should match.
      *
-     * <p>The version range should use the <b>Maven version range
+     * <p>The VERSION range should use the <b>Maven VERSION range
      * syntax</b>:</p>
      *
      * <table>
-     * <caption>Maven version range syntax</caption>
+     * <caption>Maven VERSION range syntax</caption>
      * <tr><th>Range</th><th>Meaning</th></tr>
-     * <tr><td>1.0</td><td>Any dependency version, 1.0 is recommended</td></tr>
+     * <tr><td>1.0</td><td>Any dependency VERSION, 1.0 is recommended</td></tr>
      * <tr><td>[1.0]</td><td>x == 1.0</td></tr>
      * <tr><td>[1.0,)</td><td>x &gt;= 1.0</td></tr>
      * <tr><td>(1.0,)</td><td>x &gt; 1.0</td></tr>
@@ -125,9 +125,9 @@ public final class PluginDependency {
      * <tr><td>[1.0,2.0]</td><td>1.0 &lt;= x &lt;= 2.0</td></tr>
      * </table>
      *
-     * @return The version range, or {@code null} if unspecified
-     * @see <a href="https://goo.gl/edrup4">Maven version range specification</a>
-     * @see <a href="https://goo.gl/WBsFIu">Maven version design document</a>
+     * @return The VERSION range, or {@code null} if unspecified
+     * @see <a href="https://goo.gl/edrup4">Maven VERSION range specification</a>
+     * @see <a href="https://goo.gl/WBsFIu">Maven VERSION design document</a>
      */
     @Nullable
     public String getVersion() {

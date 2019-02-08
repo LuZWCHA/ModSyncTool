@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 
-<AnchorPane fx:id="root" prefHeight="544.0" prefWidth="316.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.software.gui.controllers.MainController2">
+<AnchorPane fx:id="root" prefHeight="544.0" prefWidth="316.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.software.gui.controllers.MainController">
    <fx:define>
        <fx:include fx:id="download_content" source="download_page.fxml" />
        <fx:include fx:id="local_scan_content" source="local_scan_page.fxml" />

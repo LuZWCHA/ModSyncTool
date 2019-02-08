@@ -45,9 +45,9 @@ public @interface Plugin {
     String name() default "";
 
     /**
-     * The version of the plugin.
+     * The VERSION of the plugin.
      *
-     * @return The plugin version, or an empty string if unknown
+     * @return The plugin VERSION, or an empty string if unknown
      */
     String version() default "";
 

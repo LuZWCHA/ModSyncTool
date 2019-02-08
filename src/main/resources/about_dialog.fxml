@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" prefHeight="365.0" prefWidth="323.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.software.gui.controllers.AboutDialogController">
+   <children>
+      <GridPane hgap="2.0" layoutX="10.0" prefHeight="394.0" prefWidth="390.0" vgap="16.0">
+         <children>
+            <Label layoutX="40.0" layoutY="125.0" text="作者 : " textFill="#434343" wrapText="true" GridPane.rowIndex="2">
+               <font>
+                  <Font name="Microsoft YaHei" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="62.0" layoutY="88.0" prefHeight="15.0" prefWidth="60.0" text="版本信息：" GridPane.rowIndex="1" />
+            <Label fx:id="current_vs_lab" layoutX="122.0" layoutY="51.0" text="0.0" GridPane.columnIndex="1" />
+            <Label alignment="TOP_LEFT" layoutY="200.0" lineSpacing="1.0" text="开源： " textFill="#434343" wrapText="true" GridPane.rowIndex="5">
+               <font>
+                  <Font name="Microsoft YaHei" size="12.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="check_update_btn" buttonType="RAISED" layoutX="214.0" layoutY="47.0" mnemonicParsing="false" text="检查更新" GridPane.columnIndex="2" />
+            <Label layoutX="62.0" layoutY="51.0" text="当前版本：" />
+            <VBox layoutX="139.0" layoutY="324.0" prefHeight="96.0" prefWidth="220.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <children>
+                  <Label alignment="TOP_LEFT" lineSpacing="6.0" prefHeight="15.0" text="SnakeYAML(Andrey Somov)" textFill="#434343" wrapText="true">
+                     <font>
+                        <Font name="Microsoft YaHei" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_LEFT" lineSpacing="6.0" prefHeight="15.0" text="RxJava(ReactiveX,Apache 2.0)" textFill="#434343" wrapText="true">
+                     <font>
+                        <Font name="Microsoft YaHei" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_LEFT" lineSpacing="6.0" prefHeight="15.0" text="Retrofit(Square,Apache 2.0)" textFill="#434343" wrapText="true">
+                     <font>
+                        <Font name="Microsoft YaHei" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_LEFT" lineSpacing="6.0" prefHeight="15.0" text="OkHttp(Square,Apache 2.0)" textFill="#434343" wrapText="true">
+                     <font>
+                        <Font name="Microsoft YaHei" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_LEFT" lineSpacing="6.0" prefHeight="15.0" text="Gson(Google ,Apache 2.0)" textFill="#434343" wrapText="true">
+                     <font>
+                        <Font name="Microsoft YaHei" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_LEFT" lineSpacing="6.0" prefHeight="15.0" prefWidth="204.0" text="JFoenix(Shadi Shaheen,Apache 2.0)" textFill="#434343" wrapText="true">
+                     <font>
+                        <Font name="Microsoft YaHei" size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <Label layoutX="40.0" layoutY="154.0" text="版权 :  " textFill="#434343" wrapText="true" GridPane.rowIndex="3">
+               <font>
+                  <Font name="Microsoft YaHei" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="vs_des_lab" layoutX="122.0" layoutY="88.0" text="0.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label alignment="TOP_LEFT" layoutX="40.0" layoutY="188.0" text="依赖 ：" textFill="#434343" wrapText="true" GridPane.rowIndex="4">
+               <font>
+                  <Font name="Microsoft YaHei" size="12.0" />
+               </font>
+            </Label>
+            <Label text="nowandfuture" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Copyright©2018 nowandfuture" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label prefHeight="34.0" prefWidth="222.0" text="https://github.com/LuZWCHA/ModSyncTool" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+         </children>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints maxWidth="231.0" minWidth="183.0" prefWidth="220.0" />
+            <ColumnConstraints maxWidth="103.0" minWidth="10.0" prefWidth="66.0" />
+         </columnConstraints>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="50.0" left="20.0" right="20.0" top="50.0" />
+         </padding>
+         <rowConstraints>
+            <RowConstraints maxHeight="74.0" minHeight="0.0" valignment="TOP" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="282.0" minHeight="7.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="268.0" minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="309.0" minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints fillHeight="false" maxHeight="332.0" minHeight="0.0" valignment="TOP" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" />
+         </rowConstraints>
+      </GridPane>
+   </children>
+</AnchorPane>

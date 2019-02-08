@@ -24,6 +24,7 @@ import java.util.function.Consumer;
 
 public class MyDecorator extends JFXDecorator {
     private JFXButton settingBtn = new JFXButton();
+    private JFXButton aboutBtn = new JFXButton();
     public MyDecorator(Stage stage, Node node) {
         super(stage, node);
     }
@@ -32,17 +33,32 @@ public class MyDecorator extends JFXDecorator {
         super(stage, node, fullScreen, max, min);
     }
 
-    public void setSettingBtnListener(@NonNull EventHandler eventHandler) {
-        Image image = new Image(getClass().getClassLoader().getResourceAsStream("images/setting.png"));
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(16);
-        imageView.setFitHeight(16);
-        settingBtn.setGraphic(imageView);
+    public void setBtnListener(@NonNull EventHandler settingEventHandler, @NonNull EventHandler aboutEventHandler) {
+        Image settingImage = new Image(getClass().getClassLoader().getResourceAsStream("images/setting.png"));
+        ImageView settingImageView = new ImageView(settingImage);
+        settingImageView.setFitWidth(16);
+        settingImageView.setFitHeight(16);
+        Image aboutImage = new Image(getClass().getClassLoader().getResourceAsStream("images/about.png"));
+        ImageView aboutImageView = new ImageView(aboutImage);
+        aboutImageView.setFitWidth(16);
+        aboutImageView.setFitHeight(16);
+
+        settingBtn.setGraphic(settingImageView);
         settingBtn.setButtonType(JFXButton.ButtonType.FLAT);
         settingBtn.setRipplerFill(new Color(1,1,1,0.2));
         settingBtn.setCursor(Cursor.HAND);
+
+        aboutBtn.setGraphic(aboutImageView);
+        aboutBtn.setButtonType(JFXButton.ButtonType.FLAT);
+        aboutBtn.setRipplerFill(new Color(1,1,1,0.2));
+        aboutBtn.setCursor(Cursor.HAND);
+
         ((HBox)(getChildren().get(0))).getChildren().add(1,settingBtn);
+        ((HBox)(getChildren().get(0))).getChildren().add(1,aboutBtn);
+        aboutBtn.setDisableVisualFocus(true);
         settingBtn.setDisableVisualFocus(true);
-        settingBtn.setOnMouseClicked(eventHandler);
+
+        settingBtn.setOnMouseClicked(settingEventHandler);
+        aboutBtn.setOnMouseClicked(aboutEventHandler);
     }
 }

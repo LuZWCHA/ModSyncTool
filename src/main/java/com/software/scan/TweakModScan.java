@@ -48,8 +48,6 @@ public class TweakModScan extends AbstractScanProcess<TweakMod> {
         Manifest manifest = jf.getManifest();
         WrapperMod<TweakMod> wm = WrapperMod.createEmpty();
 
-        String FMLCoreModAtrName = "FMLCorePlugin";
-
         Optional.ofNullable(manifest).ifPresent(manifest1 -> {
             resetMap();
 

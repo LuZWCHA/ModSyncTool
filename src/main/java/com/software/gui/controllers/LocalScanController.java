@@ -147,8 +147,7 @@ public class LocalScanController implements Initializable {
                 scan_btn.setText(UIString.scanbtn_scan);
                 jarsView.stop();
                 lastScanResult = ScanCache.FORE_STOP;
-            }
-            else {
+            } else {
                 scan_btn.setText(UIString.scanbtn_pause);
                 jarsView.setFiles(new HashSet<>(cache.getAddedFiles()))
                         .observeOn(JavaFxScheduler.platform())
@@ -263,7 +262,7 @@ public class LocalScanController implements Initializable {
             if(!empty && item != null ){
                 listViewCellController.setMainText(item.getId());
                 listViewCellController.setSubtext(UIString.version + ":" + item.getVersion());
-                listViewCellController.setCell_imageview(MainController2.getImages()[item.getMode()]);
+                listViewCellController.setCell_imageview(MainController.getImages()[item.getMode()]);
                 listViewCellController.setMarkText(item.isFromServer() ? "SERVER":"CLIENT");
                 Node pane = listViewCellController.getRoot();
                 setGraphic(pane);

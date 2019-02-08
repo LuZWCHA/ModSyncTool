@@ -58,16 +58,16 @@ import java.util.Properties;
 import java.util.Stack;
 
 /**
- * Generic implementation of version comparison.
+ * Generic implementation of VERSION comparison.
  *
  * <p>Features:
  * <ul>
  * <li>mixing of '<code>-</code>' (hyphen) and '<code>.</code>' (dot) separators,</li>
  * <li>transition between characters and digits also constitutes a separator:
  *     <code>1.0alpha1 =&gt; [1, 0, alpha, 1]</code></li>
- * <li>unlimited number of version components,</li>
- * <li>version components in the text can be digits or strings,</li>
- * <li>strings are checked for well-known qualifiers and the qualifier ordering is used for version ordering.
+ * <li>unlimited number of VERSION components,</li>
+ * <li>VERSION components in the text can be digits or strings,</li>
+ * <li>strings are checked for well-known qualifiers and the qualifier ordering is used for VERSION ordering.
  *     Well-known qualifiers (case insensitive) are:<ul>
  *     <li><code>alpha</code> or <code>a</code></li>
  *     <li><code>beta</code> or <code>b</code></li>
@@ -109,7 +109,7 @@ public class ComparableVersion
     }
 
     /**
-     * Represents a numeric item in the version item SERVER_INF_LIST.
+     * Represents a numeric item in the VERSION item SERVER_INF_LIST.
      */
     private static class IntegerItem
         implements Item
@@ -170,7 +170,7 @@ public class ComparableVersion
     }
 
     /**
-     * Represents a string in the version item SERVER_INF_LIST, usually a qualifier.
+     * Represents a string in the VERSION item SERVER_INF_LIST, usually a qualifier.
      */
     private static class StringItem
         implements Item
@@ -188,7 +188,7 @@ public class ComparableVersion
 
         /**
          * A comparable value for the empty-string qualifier. This one is used to determine if a given qualifier makes
-         * the version older than one without a qualifier, or more recent.
+         * the VERSION older than one without a qualifier, or more recent.
          */
         private static final String RELEASE_VERSION_INDEX = String.valueOf( QUALIFIERS.indexOf( "" ) );
 
@@ -276,8 +276,8 @@ public class ComparableVersion
     }
 
     /**
-     * Represents a version SERVER_INF_LIST item. This class is used both for the global item SERVER_INF_LIST and for sub-lists (which start
-     * with '-(number)' in the version specification).
+     * Represents a VERSION SERVER_INF_LIST item. This class is used both for the global item SERVER_INF_LIST and for sub-lists (which start
+     * with '-(number)' in the VERSION specification).
      */
     private static class ListItem
         extends ArrayList<Item>
@@ -496,9 +496,9 @@ public class ComparableVersion
     }
 
     /**
-     * Main to test version parsing and comparison.
+     * Main to test VERSION parsing and comparison.
      *
-     * @param args the version strings to parse and compare
+     * @param args the VERSION strings to parse and compare
      */
     public static void main( String... args )
     {
@@ -530,7 +530,7 @@ public class ComparableVersion
     // plugin-meta start: Add extra methods
     /**
      * Returns the first string in this {@link ComparableVersion}. Usually this
-     * refers to the qualifier of the version.
+     * refers to the qualifier of the VERSION.
      *
      * @return The first string, or null if not found
      */
@@ -541,7 +541,7 @@ public class ComparableVersion
 
     /**
      * Returns the first integer in this {@link ComparableVersion}. Usually this
-     * refers to the major version.
+     * refers to the major VERSION.
      *
      * @return The first integer, or null if not found
      */

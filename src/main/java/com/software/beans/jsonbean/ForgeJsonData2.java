@@ -9,7 +9,7 @@ public class ForgeJsonData2 {
 
     /**
      * modListVersion : 2
-     * modList : [{"modid":"lunatriuscore","name":"LunatriusCore","description":"A collection of utilities for Lunatrius' mods.","mcversion":"1.12","version":"1.2.0.40","authorList":["Lunatrius"],"credits":"","dependants":[],"dependencies":["forge@[14.21.1.2387,)"],"parent":"","requiredMods":["forge@[14.21.1.2387,)"],"logoFile":"","screenshots":[],"updateUrl":"http://mc.lunatri.us/","url":"http://mc.lunatri.us/","useDependencyInformation":true}]
+     * modList : [{"modid":"lunatriuscore","name":"LunatriusCore","description":"A collection of utilities for Lunatrius' mods.","mcversion":"1.12","VERSION":"1.2.0.40","authorList":["Lunatrius"],"credits":"","dependants":[],"dependencies":["forge@[14.21.1.2387,)"],"parent":"","requiredMods":["forge@[14.21.1.2387,)"],"logoFile":"","screenshots":[],"updateUrl":"http://mc.lunatri.us/","url":"http://mc.lunatri.us/","useDependencyInformation":true}]
      */
 
     private int modListVersion;
@@ -37,7 +37,7 @@ public class ForgeJsonData2 {
          * name : LunatriusCore
          * description : A collection of utilities for Lunatrius' mods.
          * mcversion : 1.12
-         * version : 1.2.0.40
+         * VERSION : 1.2.0.40
          * authorList : ["Lunatrius"]
          * credits :
          * dependants : []

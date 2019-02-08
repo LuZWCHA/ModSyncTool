@@ -1,9 +1,6 @@
 package com.software.gui.controllers;
 
-import com.google.common.base.Strings;
 import com.jfoenix.controls.*;
-import com.jfoenix.validation.RequiredFieldValidator;
-import com.jfoenix.validation.base.ValidatorBase;
 import com.rxcode.rxdownload.api.ANY;
 import com.software.gui.Config;
 import com.software.gui.controllers.beans.ServerInf;
@@ -11,24 +8,17 @@ import com.software.gui.logic.CacheManager;
 import com.software.gui.logic.DirInfoCache;
 import com.software.gui.logic.ServersCache;
 import com.software.gui.scheduler.JavaFxScheduler;
-import com.software.gui.utils.FileHelper;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.functions.BiConsumer;
-import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TextInputControl;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.stage.DirectoryChooser;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,8 +26,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
-import java.util.function.Consumer;
 import java.util.logging.Logger;
 
 public class SettingDialogController implements Initializable {
@@ -99,10 +87,10 @@ public class SettingDialogController implements Initializable {
 
                         if (!Config.getFormatURL().equals(si.getPath()) && !Config.PATH.equals(si.getPath())) {
                             Config.PATH = si.getPath();
-                            MainController2.stopServer();
+                            MainController.stopServer();
                             cache.resetPath(Config.PATH);
                             cache.syncFromDisk();
-                            MainController2.startServer(cache);
+                            MainController.startServer(cache);
                         }
 
                         if (!Config.SERVER_ADDRESS.equals(si.getAddress())) {

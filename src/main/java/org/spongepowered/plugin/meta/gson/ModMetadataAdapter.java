@@ -111,7 +111,7 @@ public final class ModMetadataAdapter extends TypeAdapter<PluginMetadata> {
                 case "requiredMods":
                     in.beginArray();
                     while (in.hasNext()) {
-                        // The version in requiredMods is redundant, we can just ignore it
+                        // The VERSION in requiredMods is redundant, we can just ignore it
                         PluginDependency dependency = readDependency(in, PluginDependency.LoadOrder.NONE, false);
 
                         // Attempt to update existing dependency
@@ -159,7 +159,7 @@ public final class ModMetadataAdapter extends TypeAdapter<PluginMetadata> {
             PluginDependency required = requiredDependencies.remove(dependency.getId());
             if (required != null) {
                 if (required.getVersion() != null && !required.getVersion().equals(dependency.getVersion())) {
-                    throw new IllegalArgumentException("Found conflicting version in required dependency: "
+                    throw new IllegalArgumentException("Found conflicting VERSION in required dependency: "
                             + dependency.getVersion() + " != " + required.getVersion());
                 }
 

@@ -8,7 +8,7 @@ public class LiteJsonData {
     /**
      * name : ChatBubbles
      * mcversion : 1.12.0
-     * version : 1.0.1
+     * VERSION : 1.0.1
      * revision : 1001
      * author : MamiyaOtaru
      * description : ChatBubbles displays what people say above their heads
