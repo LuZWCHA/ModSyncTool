@@ -1,4 +1,4 @@
-package com.software.gui.logic;
+package com.software.api;
 
 public interface MyCache {
     void preInit();

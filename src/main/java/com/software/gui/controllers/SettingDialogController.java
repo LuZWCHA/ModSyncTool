@@ -3,8 +3,9 @@ package com.software.gui.controllers;
 import com.jfoenix.controls.*;
 import com.rxcode.rxdownload.api.ANY;
 import com.software.gui.Config;
-import com.software.gui.controllers.beans.ServerInf;
-import com.software.gui.logic.CacheManager;
+import com.software.api.Managers.CacheManager;
+import com.software.api.SyncController;
+import com.software.gui.beans.ServerInf;
 import com.software.gui.logic.DirInfoCache;
 import com.software.gui.logic.ServersCache;
 import com.software.gui.scheduler.JavaFxScheduler;
@@ -15,7 +16,6 @@ import io.reactivex.schedulers.Schedulers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -28,7 +28,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
-public class SettingDialogController implements Initializable {
+public class SettingDialogController implements SyncController {
 
     private Logger logger = Logger.getLogger(getClass().getSimpleName());
 
@@ -158,5 +158,10 @@ public class SettingDialogController implements Initializable {
         if(!Objects.isNull(dialog)){
             dialog.close();
         }
+    }
+
+    @Override
+    public void postInitialize() {
+
     }
 }

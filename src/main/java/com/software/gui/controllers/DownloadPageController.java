@@ -9,8 +9,9 @@ import com.rxcode.rxdownload.api.RxCarrier;
 import com.rxcode.rxdownload.obervables.DTask;
 import com.rxcode.rxdownload.obervables.DownloadInfo;
 import com.software.beans.*;
+import com.software.api.Managers.CacheManager;
+import com.software.api.SyncController;
 import com.software.gui.controllers.cells.DownloadCellController;
-import com.software.gui.logic.CacheManager;
 import com.software.gui.logic.DirInfoCache;
 import com.software.gui.logic.NLCompareRecorder;
 import com.software.gui.utils.UIString;
@@ -21,7 +22,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
@@ -43,7 +43,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
-public class DownloadPageController implements Initializable {
+public class DownloadPageController implements SyncController {
 
     @FXML
     private AnchorPane root;
@@ -134,7 +134,7 @@ public class DownloadPageController implements Initializable {
                                     }
                                 })
                                 .subscribe(new FlowableSubscriber<RxCarrier>() {
-                                    DecimalFormat df = new DecimalFormat("0.00");
+                                    DecimalFormat df = new DecimalFormat("0.00");//init
 
                                     @Override
                                     public void onSubscribe(Subscription s) {
@@ -159,7 +159,8 @@ public class DownloadPageController implements Initializable {
                                             abstractMod.setFilePath(DownloadConfig.getAbsolutePath(downloadInfo.getRealFileName()));
 
                                             try {
-                                                abstractMod.setFileMD5(Files.asByteSource(new File(abstractMod.getFilePath())).hash(Hashing.goodFastHash(128)));
+                                                abstractMod.setFileMD5(Files.asByteSource(new File(abstractMod.getFilePath()))
+                                                        .hash(Hashing.goodFastHash(128)));
                                             } catch (IOException e) {
                                                 logger.warning(abstractMod.getId() + " lost MD5");
                                             }
@@ -233,8 +234,6 @@ public class DownloadPageController implements Initializable {
         });
     }
 
-
-
     private void snackBarShow(String msg){
         snackbar.fireEvent(new JFXSnackbar.SnackbarEvent(msg, "关闭", 2000, false, new EventHandler<ActionEvent>() {
             @Override
@@ -243,6 +242,11 @@ public class DownloadPageController implements Initializable {
             }
         }));
         //snackbar.show(msg,1500);
+    }
+
+    @Override
+    public void postInitialize() {
+
     }
 
     private class DownloadTaskCell extends JFXListCell<DTask> {
@@ -278,7 +282,8 @@ public class DownloadPageController implements Initializable {
 
             if(!empty && item != null ){
                 listViewCellController.setState(item.getDownloadInfo().getDownloadStatus().getName());
-                listViewCellController.setTitle(((TransMod)item.getDownloadInfo().getData()).getId()+"-"+((TransMod)item.getDownloadInfo().getData()).getVersion());
+                listViewCellController.setTitle(((TransMod)item.getDownloadInfo().getData()).getId()+"-"+
+                        ((TransMod)item.getDownloadInfo().getData()).getVersion());
                 listViewCellController.setProgress(item.getDownloadInfo().getProgress()/10000d);
                 if(item.getDownloadInfo().getDownloadStatus() == DownloadInfo.DownloadStatus.DOWNLOADING){
                     listViewCellController.setSpeed(item.getDownloadInfo().getDownloadSpeed());

@@ -1,4 +1,4 @@
-package com.software.gui.controllers.beans;
+package com.software.gui.beans;
 
 import com.software.gui.Config;
 import com.software.gui.utils.FileHelper;
@@ -65,7 +65,6 @@ public class ServerInf implements Serializable {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(name);
     }
 

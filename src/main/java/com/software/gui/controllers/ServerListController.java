@@ -5,9 +5,10 @@ import com.jfoenix.controls.JFXAlert;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
-import com.software.gui.controllers.beans.ServerInf;
+import com.software.api.Managers.CacheManager;
+import com.software.api.SyncController;
+import com.software.gui.beans.ServerInf;
 import com.software.gui.controllers.cells.ServerCellController;
-import com.software.gui.logic.CacheManager;
 import com.software.gui.logic.ServersCache;
 import com.software.gui.utils.UIString;
 import javafx.event.ActionEvent;
@@ -15,7 +16,6 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
@@ -32,7 +32,7 @@ import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
-public class ServerListController implements Initializable {
+public class ServerListController implements SyncController {
 
     private Logger logger = Logger.getLogger(getClass().getSimpleName());
 
@@ -182,6 +182,11 @@ public class ServerListController implements Initializable {
         } catch (IOException e) {
             logger.throwing(getClass().getSimpleName(),"onClick",e);
         }
+    }
+
+    @Override
+    public void postInitialize() {
+
     }
 
     private class ServerCell extends JFXListCell<ServerInf>{

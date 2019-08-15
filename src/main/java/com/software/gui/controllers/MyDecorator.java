@@ -1,30 +1,25 @@
 package com.software.gui.controllers;
 
-import com.jfoenix.controls.JFXAlert;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDecorator;
+import com.software.api.SyncController;
 import io.reactivex.annotations.NonNull;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.util.Objects;
-import java.util.function.Consumer;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class MyDecorator extends JFXDecorator {
+public class MyDecorator extends JFXDecorator implements SyncController {
     private JFXButton settingBtn = new JFXButton();
     private JFXButton aboutBtn = new JFXButton();
+
     public MyDecorator(Stage stage, Node node) {
         super(stage, node);
     }
@@ -60,5 +55,15 @@ public class MyDecorator extends JFXDecorator {
 
         settingBtn.setOnMouseClicked(settingEventHandler);
         aboutBtn.setOnMouseClicked(aboutEventHandler);
+    }
+
+    @Override
+    public void postInitialize() {
+
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
     }
 }

@@ -2,14 +2,14 @@ package com.software.gui.controllers;
 
 import com.rxcode.rxdownload.api.ANY;
 import com.software.beans.Mod;
-import com.software.gui.logic.CacheManager;
+import com.software.api.Managers.CacheManager;
+import com.software.api.SyncController;
 import com.software.gui.logic.DirInfoCache;
 import com.software.gui.logic.FileWatchServer;
 import io.reactivex.Maybe;
 import io.reactivex.observers.DisposableMaybeObserver;
 import io.reactivex.schedulers.Schedulers;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
@@ -17,7 +17,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
-public class MainController implements Initializable {
+public class MainController implements SyncController {
 
     Logger logger = Logger.getLogger(getClass().getSimpleName());
 
@@ -86,5 +86,10 @@ public class MainController implements Initializable {
         server = new FileWatchServer(cache);
         server.setDaemon(true);
         server.start();
+    }
+
+    @Override
+    public void postInitialize() {
+
     }
 }

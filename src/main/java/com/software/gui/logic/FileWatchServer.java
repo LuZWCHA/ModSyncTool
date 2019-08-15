@@ -65,8 +65,6 @@ public class FileWatchServer extends Thread {
 
 
 /**
- * copy from below author
- * 文件夹监控
  *
  * @author Goofy <a href="http://www.xdemo.org/">http://www.xdemo.org/</a>
  * @Date 2015年7月3日 上午9:21:33

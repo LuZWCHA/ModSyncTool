@@ -1,6 +1,7 @@
 package com.software.gui.logic;
 
-import com.software.gui.controllers.beans.ServerInf;
+import com.software.api.MyCache;
+import com.software.gui.beans.ServerInf;
 import com.software.gui.utils.FileHelper;
 import io.reactivex.annotations.NonNull;
 
@@ -8,8 +9,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
 
 
 public class ServersCache implements MyCache {

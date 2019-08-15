@@ -22,6 +22,7 @@ import java.util.jar.JarFile;
  *
  * Created by 陆正威 on 2018/7/14.
  */
+// TODO: 2019/8/15 combine all annotaion-defined-mod to a abstract class
 public class SpongeModScan extends AbstractScanProcess<SpongeMod> {
     @Override
     public long getId() {

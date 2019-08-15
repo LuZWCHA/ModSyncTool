@@ -1,13 +1,11 @@
 package com.software.beans.jsonbean;
 
-public class VersionData {
+public class VersionJsonData {
     private String version;
     private String versionDescription;
 
-
-
-    public static VersionData createEmpty(){
-        VersionData empty = new VersionData();
+    public static VersionJsonData createEmpty(){
+        VersionJsonData empty = new VersionJsonData();
         empty.version = null;
         return empty;
     }

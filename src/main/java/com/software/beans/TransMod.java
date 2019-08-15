@@ -3,7 +3,9 @@ package com.software.beans;
 import java.io.Serializable;
 import java.util.Objects;
 
-//比对信息的消息体
+import static com.software.beans.Mod.MODE.UNKNOWN_VERSION;
+
+//information tran body between server and client
 public class TransMod implements Serializable{
     private String id;
     private String version;
@@ -69,14 +71,15 @@ public class TransMod implements Serializable{
         return Mod.NameMap[mode];
     }
 
-    //getXXX() is important because of wrapper class
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof TransMod)) return false;//Note:all subclasses can be compared even not the same class
         TransMod transMod = (TransMod) o;
         return Objects.equals(getId(), transMod.getId()) &&
-                Objects.equals(getVersion(), transMod.getVersion());
+                Objects.equals(getVersion(), transMod.getVersion()) &&
+                (!getVersion().equals(UNKNOWN_VERSION) &&
+                !transMod.getVersion().equals(UNKNOWN_VERSION));
     }
 
     @Override

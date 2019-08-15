@@ -7,14 +7,14 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
 import com.jfoenix.validation.base.ValidatorBase;
 import com.software.gui.Config;
-import com.software.gui.controllers.beans.ServerInf;
-import com.software.gui.logic.CacheManager;
+import com.software.api.Managers.CacheManager;
+import com.software.api.SyncController;
+import com.software.gui.beans.ServerInf;
 import com.software.gui.logic.ServersCache;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
-public class ServerEditDialogController implements Initializable {
+public class ServerEditDialogController implements SyncController {
 
     private Logger logger = Logger.getLogger(getClass().getSimpleName());
 
@@ -193,6 +193,11 @@ public class ServerEditDialogController implements Initializable {
 
     public void setSuccessActionEventHandler(EventHandler actionEvent) {
         this.actionEvent = actionEvent;
+    }
+
+    @Override
+    public void postInitialize() {
+
     }
 
     private class NameValidator extends ValidatorBase {

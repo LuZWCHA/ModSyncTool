@@ -10,6 +10,8 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+//all sponge and forge mod has an Annotation to define a mod
+// TODO: 2019/8/15 combine all annotaion-defined-mod to a abstract class
 public class ForgeSpongeModScan extends SpongeModScan {
     ForgeModScan forgeModScan = new ForgeModScan();
 

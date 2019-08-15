@@ -1,4 +1,6 @@
-package com.software.gui.logic;
+package com.software.api.Managers;
+
+import com.software.api.MyCache;
 
 import java.util.HashMap;
 import java.util.Map;

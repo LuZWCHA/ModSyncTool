@@ -1,5 +1,6 @@
 package com.software.gui.utils;
 
+// TODO: 2019/8/15 collect all ui-string
 public class UIString {
     public static String delete0 = "删除";
     public static String delete1 = "删 除";
@@ -42,7 +43,6 @@ public class UIString {
     public static String download_sync_btn_sync = "同步";
     public static String download_sync_btn_stop = "全部停止";
     public static String download_snack_bar_check = "请先扫描完成后再进行同步";
-
 
 
 }

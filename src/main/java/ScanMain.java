@@ -4,10 +4,14 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDecorator;
 import com.jfoenix.controls.JFXDialogLayout;
 import com.software.gui.Config;
+import com.software.api.AppInfo;
+import com.software.api.Managers.CacheManager;
+import com.software.api.Managers.ControllerManager;
+import com.software.api.Managers.StageManager;
+import com.software.api.SyncContext;
 import com.software.gui.controllers.AboutDialogController;
 import com.software.gui.controllers.MyDecorator;
 import com.software.gui.controllers.SettingDialogController;
-import com.software.gui.logic.CacheManager;
 import com.software.gui.logic.DirInfoCache;
 import com.software.gui.logic.ServersCache;
 import com.software.gui.utils.DrawUtil;
@@ -43,6 +47,8 @@ public class ScanMain extends Application {
 
     private static String NEED_JAVA_VERSION = "1.8.0_60";
     private  static Logger logger = Logger.getLogger(ScanMain.class.getSimpleName());
+    private SyncContext context;
+
     public static void main(String[] args) {
         //to avoid the UndeliverableException or any other error in the rxjava chain(cause crash)
         RxJavaPlugins.setErrorHandler(e -> {
@@ -68,6 +74,8 @@ public class ScanMain extends Application {
             //Log.warning("Undeliverable exception received, not sure what to do", e);
         });
 
+
+
         try {
             String path;
             if(args.length>1 && "-d".equals(args[0]) && args[1] != null) {
@@ -87,6 +95,11 @@ public class ScanMain extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         String javaVersion = System.getProperty("java.version");
+        AppInfo.VERSION = "1.5";
+        AppInfo.VERSION_DESCRIPTION = "1.5";
+        context = new SyncContext(ControllerManager.INSTANCE,CacheManager.INSTANCE);
+
+        construction(AppInfo.VERSION,javaVersion);
 
         if(VersionCompareHelper.compareVersion(NEED_JAVA_VERSION,javaVersion) > 0){
             JFXAlert alert = new JFXAlert();
@@ -122,6 +135,8 @@ public class ScanMain extends Application {
 
         CacheManager.INSTANCE.registerCache(CacheManager.Key.createKey(0,DirInfoCache.class),new DirInfoCache(Config.PATH));
 
+        initialize(context);
+
         URL url = getClass().getResource("main.fxml");
 
         FXMLLoader loader = new FXMLLoader();
@@ -142,6 +157,7 @@ public class ScanMain extends Application {
             @Override
             public void handle(WindowEvent event) {
                 CacheManager.INSTANCE.saveAll();
+                close();
             }
         });
 
@@ -197,26 +213,39 @@ public class ScanMain extends Application {
             }
         });
 
+        postInitialize();
         primaryStage.show();
     }
 
-    public Stage newStage(Node node){
-        Stage secondaryStage=new Stage();
+    private Stage newStage(Node node){
+        Stage secondaryStage = new Stage();
 
         JFXDecorator decorator = new JFXDecorator(secondaryStage,node,false,false,true);
 
         DrawUtil.setJFXDecorator(decorator,Color.valueOf("#F4371E"),Color.WHITE,UIString.main_full_screen,
                 UIString.min_screen,UIString.max_screen,UIString.close_main);
 
-        secondaryStage.setTitle(UIString.main_title);
-
-        Scene secondaryScene=new Scene(decorator,400,450);
-        secondaryScene.getStylesheets().add(getClass().getResource("css/global.css").toExternalForm());
-
-        secondaryStage.setScene(secondaryScene);
-        secondaryStage.setTitle("关于");
-
-        return secondaryStage;
+        return StageManager.INSTANCE.create(secondaryStage,decorator,UIString.main_title,
+                getClass().getResource("css/global.css").toExternalForm(),400,450);
     }
 
+    public void construction(String syncVersion,String javaVersion) {
+
+    }
+
+    public boolean initialize(SyncContext context) {
+        return false;
+    }
+
+    public boolean postInitialize() {
+        return false;
+    }
+
+    public boolean close() {
+        return false;
+    }
+
+    public void crash() throws Throwable {
+
+    }
 }

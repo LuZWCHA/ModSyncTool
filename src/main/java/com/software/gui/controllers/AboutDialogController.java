@@ -6,12 +6,13 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXSnackbar;
 import com.rxcode.rxdownload.obervables.DownloadInfo;
-import com.software.beans.jsonbean.VersionData;
-import com.software.gui.logic.UpdaterManager;
+import com.software.beans.jsonbean.VersionJsonData;
+import com.software.api.AppInfo;
+import com.software.api.SyncController;
 import com.software.gui.scheduler.JavaFxScheduler;
-import com.software.gui.utils.AppInfo;
 import com.software.gui.utils.FileHelper;
 import com.software.gui.utils.UIString;
+import com.software.gui.utils.Updater;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
@@ -19,7 +20,6 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.DialogEvent;
 import javafx.scene.control.Label;
@@ -34,7 +34,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AboutDialogController implements Initializable {
+public class AboutDialogController implements SyncController {
     @FXML
     public Label current_vs_lab;
     @FXML
@@ -49,6 +49,7 @@ public class AboutDialogController implements Initializable {
     private Label label = new Label();
     private JFXSnackbar snackbar;
 
+    //垃圾代码看看就好(0_0),考虑把匿名函数内容拉出来
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         snackbar = new JFXSnackbar(root);
@@ -62,42 +63,46 @@ public class AboutDialogController implements Initializable {
         check_update_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                UpdaterManager.INSTANCE.checkUpdate()
+                check_update_btn.setDisable(true);
+                check_update_btn.setText("获取中...");
+                Updater.INSTANCE.checkUpdate()
                         .observeOn(JavaFxScheduler.platform())
-                        .map(new Function<VersionData, Object>() {
+                        .map(new Function<VersionJsonData, Object>() {
                             @Override
-                            public Object apply(VersionData versionData) throws Exception {
-                                if(!versionData.isEmpty()){
+                            public Object apply(VersionJsonData versionJsonData) throws Exception {
+                                if(!versionJsonData.isEmpty()){
                                     //has new version
-                                    showGlobalDialog("发现新版本："+versionData.getVersion()+"，是否更新？",
+                                    showGlobalDialog("发现新版本："+ versionJsonData.getVersion()+"，是否更新？",
                                             new EventHandler() {
                                                 @Override
                                                 public void handle(Event event) {
-                                                    Disposable disposable = UpdaterManager.INSTANCE.downloadNewVersion(versionData.getVersion())
-                                                            .doFinally(() -> {
-                                                                if(alert != null && alert.isShowing())
-                                                                    alert.close();
-                                                            })
-                                                            .observeOn(JavaFxScheduler.platform())
-                                                            .subscribe(rxCarrier -> {
+                                                    Disposable disposable =
+                                                            Updater.INSTANCE.downloadNewVersion(versionJsonData.getVersion())
+                                                                    .doFinally(() -> {
+                                                                        if(alert != null && alert.isShowing())
+                                                                            alert.close();
+                                                                    })
+                                                                    .observeOn(JavaFxScheduler.platform())
+                                                                    .subscribe(rxCarrier -> {
 
-                                                                DownloadInfo downloadInfo = (DownloadInfo) rxCarrier;
-                                                                if(downloadInfo.getDownloadStatus() == DownloadInfo.DownloadStatus.DOWNLOAD_FINISHED) {
-                                                                    label.setText("删除:" + FileHelper.getJarPath());
-                                                                    ProcessBuilder pb = new ProcessBuilder("java", "-jar", downloadInfo.getRealFileName(),
-                                                                            "-d",FileHelper.getJarPath());
-                                                                    pb.directory(new File(downloadInfo.getDownloadPath()));
-                                                                    Process p = pb.start();
-                                                                    System.exit(0);
-                                                                }
-                                                                else if(downloadInfo.getDownloadStatus() == DownloadInfo.DownloadStatus.DOWNLOAD_FAILED){
-                                                                    snackBarShow(downloadInfo.getThrowable().getMessage());
-                                                                }
-                                                                else if(downloadInfo.getDownloadStatus() == DownloadInfo.DownloadStatus.DOWNLOADING) {
-                                                                    System.out.println(downloadInfo.getProgress());
-                                                                    label.setText(downloadInfo.getProgress()+"/10000");
-                                                                }
-                                                            }, throwable -> snackBarShow(throwable.getMessage()));
+                                                                        DownloadInfo downloadInfo = (DownloadInfo) rxCarrier;
+                                                                        if(downloadInfo.getDownloadStatus() == DownloadInfo.DownloadStatus.DOWNLOAD_FINISHED) {
+                                                                            label.setText("删除:" + FileHelper.getJarPath());
+                                                                            //use jvm to delete old-version file
+                                                                            ProcessBuilder pb = new ProcessBuilder("java", "-jar", downloadInfo.getRealFileName(),
+                                                                                    "-d",FileHelper.getJarPath());
+                                                                            pb.directory(new File(downloadInfo.getDownloadPath()));
+                                                                            Process p = pb.start();
+                                                                            System.exit(0);
+                                                                        }
+                                                                        else if(downloadInfo.getDownloadStatus() == DownloadInfo.DownloadStatus.DOWNLOAD_FAILED){
+                                                                            snackBarShow(downloadInfo.getThrowable().getMessage());
+                                                                        }
+                                                                        else if(downloadInfo.getDownloadStatus() == DownloadInfo.DownloadStatus.DOWNLOADING) {
+                                                                            System.out.println(downloadInfo.getProgress());
+                                                                            label.setText(downloadInfo.getProgress()+"/10000");
+                                                                        }
+                                                                    }, throwable -> snackBarShow(throwable.getMessage()));
 
                                                     if(label != null){
                                                         label.setText("开始下载");
@@ -110,23 +115,26 @@ public class AboutDialogController implements Initializable {
                                                         }
                                                     });
                                                 }
-                                    });
-
+                                            });
                                 }else {
                                     //it's the latest version
                                     showGlobalDialog("已经是最新版本",null);
                                 }
                                 return new Object();
                             }
-                        }).subscribe(new Consumer<Object>() {
-                    @Override
-                    public void accept(Object o) throws Exception {
-
-                    }
+                        })
+                        .subscribe(new Consumer<Object>() {
+                            @Override
+                            public void accept(Object o) throws Exception {
+                                check_update_btn.setDisable(false);
+                                check_update_btn.setText("检查版本");
+                            }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        snackBarShow(throwable.getMessage());
+                        check_update_btn.setDisable(false);
+                        check_update_btn.setText("检查版本");
+                        snackBarShow(throwable.toString());
                     }
                 });
             }
@@ -134,12 +142,8 @@ public class AboutDialogController implements Initializable {
     }
 
     private void snackBarShow(String msg){
-        snackbar.fireEvent(new JFXSnackbar.SnackbarEvent(msg, "关闭", 3000, false, new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                snackbar.close();
-            }
-        }));
+        snackbar.fireEvent(new JFXSnackbar.SnackbarEvent(msg, "关闭", 3000, false,
+                event -> snackbar.close()));
     }
 
     private void showGlobalDialog(String content,EventHandler eventHandler){
@@ -186,5 +190,10 @@ public class AboutDialogController implements Initializable {
         alert.setContent(layout);
 
         alert.show();
+    }
+
+    @Override
+    public void postInitialize() {
+
     }
 }

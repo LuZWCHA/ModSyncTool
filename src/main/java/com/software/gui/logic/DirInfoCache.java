@@ -4,6 +4,7 @@ import com.rxcode.rxdownload.api.ANY;
 import com.software.beans.AbstractMod;
 import com.software.beans.TransMod;
 import com.software.beans.WrapperMod;
+import com.software.api.MyCache;
 import com.software.gui.scheduler.JavaFxScheduler;
 import com.software.gui.utils.FileHelper;
 import io.reactivex.Maybe;

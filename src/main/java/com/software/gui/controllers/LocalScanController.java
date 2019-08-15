@@ -6,8 +6,9 @@ import com.jfoenix.utils.JFXNodeUtils;
 import com.software.beans.AbstractMod;
 import com.software.beans.TransMod;
 import com.software.beans.WrapperMod;
+import com.software.api.SyncController;
 import com.software.gui.controllers.cells.ListViewCellController;
-import com.software.gui.logic.CacheManager;
+import com.software.api.Managers.CacheManager;
 import com.software.gui.logic.DirInfoCache;
 import com.software.gui.scheduler.JavaFxScheduler;
 import com.software.gui.utils.UIString;
@@ -15,7 +16,6 @@ import com.software.scan.JarsView;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
@@ -38,7 +38,7 @@ import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
-public class LocalScanController implements Initializable {
+public class LocalScanController implements SyncController {
     @FXML
     private AnchorPane root;
 
@@ -60,6 +60,11 @@ public class LocalScanController implements Initializable {
     private Subscriber<WrapperMod> subscriber;
 
     private ScanCache lastScanResult = ScanCache.NONE;
+
+    @Override
+    public void postInitialize() {
+
+    }
 
     private enum ScanCache{
         COMPLETE,
